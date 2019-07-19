@@ -11,6 +11,7 @@ classdef Context < handle
 
     % Create or import from configuration file
     methods (Static)
+        % TODO: GENERALIZE TO OTHER FILES
         function out = importConfig(configFilePath)
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file

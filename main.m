@@ -1,5 +1,5 @@
 
-
+% FIXME: uSE VINCENT AND CONTEXT -> FILEHANDLERS
 config_file_path = [pwd filesep 'config.txt'];
 
 robotArchitecture = Context.importConfig(config_file_path);
