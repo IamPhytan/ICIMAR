@@ -8,7 +8,7 @@ Interface de calcul de cinématique pour les manipulateurs redondants
 
 Ajouter les membres du bras à tracer dans le [fichier de configuration de l'architecture](./architecture.txt), avec la syntaxe suivante :
 
-```
+```md
 <type-de-joint> <longueur> <largeur> <angle>
 ```
 
