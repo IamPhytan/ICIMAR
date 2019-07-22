@@ -32,22 +32,22 @@ classdef Context < handle
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            configFileContents = "Configuration en cinematique directe des membres du manipulateur seriel" + newline;
-            configFileContents = configFileContents + "==============================================" + newline;
-            configFileContents = configFileContents + "Entrez vos parametres a partir de la ligne 13, apres la ligne de '*'" + newline;
-            configFileContents = configFileContents + "" + newline;
-            configFileContents = configFileContents + "Utilisez la syntaxe suivante avec R pour symboliser un joint rotorique et P pour un joint prismatique :" + newline;
-            configFileContents = configFileContents + "<type-de-joint> <longueur> <largeur> <angle>" + newline;
-            configFileContents = configFileContents + "" + newline;
-            configFileContents = configFileContents + "Par exemple, pour un membre long de 5 unites, large de 2 unites, avec un angle de 60 degres" + newline;
-            configFileContents = configFileContents + "par rapport au membre precedent et relie a celui-ci par un joint rotorique  :" + newline;
-            configFileContents = configFileContents + "R 5 2 60" + newline;
-            configFileContents = configFileContents + "" + newline;
-            configFileContents = configFileContents + "******************************************" + newline;
-            configFileContents = configFileContents + newline + newline + newline + newline + newline + newline;
+            architectureConfigFileContents = "Configuration en cinematique directe des membres du manipulateur seriel" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Entrez vos parametres a partir de la ligne 13, apres la ligne de '*'" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Utilisez la syntaxe suivante avec R pour symboliser un joint rotorique et P pour un joint prismatique :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "<type-de-joint> <longueur> <largeur> <angle>" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Par exemple, pour un membre long de 5 unites, large de 2 unites, avec un angle de 60 degres" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "par rapport au membre precedent et relie a celui-ci par un joint rotorique  :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "R 5 2 60" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "******************************************" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + newline + newline + newline + newline + newline + newline;
 
             fid = fopen(configFilePath, 'wt');
-            fprintf(fid, configFileContents);
+            fprintf(fid, architectureConfigFileContents);
             fclose(fid);
 
             ME = MException('MATLAB:missingData', ...
@@ -113,6 +113,73 @@ classdef Context < handle
                     'Il manque des valeurs %s dans le fichier de configuration', nom_colu);
                 throw(ME)
             end
+        end
+    end
+
+    % Create configuration files
+    methods (Access=private)
+        function generateArchitectureConfig(~)
+            % generateArchitectureConfig  Gemerate a architecture config file
+            %   Feature implemented for those who delete the architecture config file
+            %   If you are one of those, the program will create a new config file in the folder
+            %   The program will then prompt you to fulfill it with the data of the robot
+
+            architectureConfigFilePath = [pwd filesep 'architecture.txt'];
+
+            architectureConfigFileContents = "Configuration en cinematique directe des membres du manipulateur seriel" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Entrez vos parametres a partir de la ligne 13, apres la ligne de '*'" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Utilisez la syntaxe suivante avec R pour symboliser un joint rotorique et P pour un joint prismatique :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "<type-de-joint> <longueur> <largeur> <angle>" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Par exemple, pour un membre long de 5 unites, large de 2 unites, avec un angle de 60 degres" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "par rapport au membre precedent et relie a celui-ci par un joint rotorique  :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "R 5 2 60" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "******************************************" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + newline + newline + newline + newline + newline + newline;
+
+            fid = fopen(architectureConfigFilePath, 'wt');
+            fprintf(fid, architectureConfigFileContents);
+            fclose(fid);
+
+            ME = MException('MATLAB:missingData', ...
+            ['Fichier de configuration manquant', newline, ...
+            'Veuillez ajouter vos valeurs au fichier de configuration qui fut cree au chemin suivant: <a href="matlab: open(''%s'')">%s</a>'], architectureConfigFilePath, architectureConfigFilePath);
+            throw(ME)
+        end
+
+        function targetsArchitectureConfig(~)
+            % generateArchitectureConfig  Gemerate a architecture config file
+            %   Feature implemented for those who delete the architecture config file
+            %   If you are one of those, the program will create a new config file in the folder
+            %   The program will then prompt you to fulfill it with the data of the robot
+
+            architectureConfigFilePath = [pwd filesep 'architecture.txt'];
+
+            architectureConfigFileContents = "Configuration en cinematique directe des membres du manipulateur seriel" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Entrez vos parametres a partir de la ligne 13, apres la ligne de '*'" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Utilisez la syntaxe suivante avec R pour symboliser un joint rotorique et P pour un joint prismatique :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "<type-de-joint> <longueur> <largeur> <angle>" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "Par exemple, pour un membre long de 5 unites, large de 2 unites, avec un angle de 60 degres" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "par rapport au membre precedent et relie a celui-ci par un joint rotorique  :" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "R 5 2 60" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + "******************************************" + newline;
+            architectureConfigFileContents = architectureConfigFileContents + newline + newline + newline + newline + newline + newline;
+
+            fid = fopen(architectureConfigFilePath, 'wt');
+            fprintf(fid, architectureConfigFileContents);
+            fclose(fid);
+
+            ME = MException('MATLAB:missingData', ...
+            ['Fichier de configuration manquant', newline, ...
+            'Veuillez ajouter vos valeurs au fichier de configuration qui fut cree au chemin suivant: <a href="matlab: open(''%s'')">%s</a>'], architectureConfigFilePath, architectureConfigFilePath);
+            throw(ME)
         end
     end
 end
