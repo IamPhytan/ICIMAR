@@ -15,15 +15,16 @@ classdef Context < handle
     % Create or import from configuration file
     methods (Static)
         % TODO: GENERALIZE TO OTHER FILES
-        function out = importConfig(configFilePath)
+        function out = importConfig(configFilename, strFormat, numHeaderLines, dataCols)
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file
             %   Checks if the config file is in the folder
+            configFilePath = [pwd filesep configFilename];
             if ~isfile(configFilePath)
-                Context().createConfigFile(configFilePath);
+                Context().createConfigFile(configFilename);
             end
-            configContents = Context().readConfig(configFilePath);
-            Context().validateContents(configContents, configFilePath);
+            configContents = Context().readConfig(configFilePath, strFormat, numHeaderLines);
+            Context().validateContents(configContents, configFilePath, dataCols);
             out = configContents;
         end
     end
@@ -42,6 +43,7 @@ classdef Context < handle
                     generateTargetsConfig();
                 case "obstacles.txt"
                     generateObstaclesConfig();
+            end
 
         end
 
