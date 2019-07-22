@@ -186,6 +186,37 @@ classdef Context < handle
             'Veuillez ajouter vos valeurs au fichier de configuration qui fut cree au chemin suivant: <a href="matlab: open(''%s'')">%s</a>'], targetConfigFilePath, targetConfigFilePath);
             throw(ME)
         end
+
+        function generateObstaclesConfig(~)
+            % generateObstaclesConfig  Gemerate a obstacle config file
+            %   Feature implemented for those who delete the obstacle config file
+            %   If you are one of those, the program will create a new config file in the folder
+            %   The program will then prompt you to fulfill it with the data of the robot
+
+            obstacleConfigFilePath = [pwd filesep 'obstacles.txt'];
+
+            obstacleConfigFileContents = "Configuration des obstacles a eviter avec le manipulateur seriel" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "==============================================" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "Entrez vos parametres a partir de la ligne 12, apres la ligne de '*'" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "<x> <y> <rayon>" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "Par exemple, pour un obstacle de rayon 3 centré au point (2, 4) :" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "2 4 3" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "******************************************" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + newline + newline + newline + newline + newline + newline;
+
+            fid = fopen(obstacleConfigFilePath, 'wt');
+            fprintf(fid, obstacleConfigFileContents);
+            fclose(fid);
+
+            ME = MException('MATLAB:missingData', ...
+            ['Fichier de configuration manquant', newline, ...
+            'Veuillez ajouter vos valeurs au fichier de configuration qui fut cree au chemin suivant: <a href="matlab: open(''%s'')">%s</a>'], obstacleConfigFilePath, obstacleConfigFilePath);
+            throw(ME)
+        end
     end
 end
 

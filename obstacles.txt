@@ -1,3 +1,22 @@
-TODO: Add configuration
+Configuration des obstacles à éviter avec le manipulateur sériel
+==============================================
+Entrez vos paramètres à partir de la ligne 12, après la ligne de '*'
 
-TODO: ADD PLANNER NAME
+Utilisez la syntaxe suivante :
+<x> <y> <rayon>
+
+Par exemple, pour un obstacle de rayon 3 centré au point (2, 4) :
+2 4 3
+
+******************************************
+6 4 3
+28 30 10
+4 4 2
+7 3 7
+15 3 9
+9 2 5
+7 2 8
+36 2 58
+49 1 50
+25 1 60
+6 1 45
