@@ -4,10 +4,13 @@ classdef Context < handle
     %
     %
     % Member Methods:
-    %    importConfig       - Decide whether the config file should be created or opened
-    %    createConfigFile   - Generate a config file
-    %    readConfig         - Open the config file and return the contents
-    %    validateContents   - Verify that the data is there and well formatted
+    %    importConfig               - Decide whether the config file should be created or opened
+    %    createConfigFile           - Generate a config file
+    %    readConfig                 - Open the config file and return the contents
+    %    validateContents           - Verify that the data is there and well formatted
+    %    generateArchitectureConfig - Gemerate an architecture config file
+    %    generateTargetsConfig      - Gemerate a target config file
+    %    generateObstaclesConfig    - Gemerate an obstacle config file
 
     % Create or import from configuration file
     methods (Static)
@@ -26,34 +29,20 @@ classdef Context < handle
     end
 
     methods (Access=private)
-        function createConfigFile(~, configFilePath)
+        function createConfigFile(~, configFilename)
             % createConfigFile  Gemerate a config file
             %   Feature implemented for those who delete the config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            architectureConfigFileContents = "Configuration en cinematique directe des membres du manipulateur seriel" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "Entrez vos parametres a partir de la ligne 13, apres la ligne de '*'" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "Utilisez la syntaxe suivante avec R pour symboliser un joint rotorique et P pour un joint prismatique :" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "<type-de-joint> <longueur> <largeur> <angle>" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "Par exemple, pour un membre long de 5 unites, large de 2 unites, avec un angle de 60 degres" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "par rapport au membre precedent et relie a celui-ci par un joint rotorique  :" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "R 5 2 60" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + "******************************************" + newline;
-            architectureConfigFileContents = architectureConfigFileContents + newline + newline + newline + newline + newline + newline;
+            switch configFilename
+                case "architecture.txt"
+                    generateArchitectureConfig();
+                case "cibles.txt"
+                    generateTargetsConfig();
+                case "obstacles.txt"
+                    generateObstaclesConfig();
 
-            fid = fopen(configFilePath, 'wt');
-            fprintf(fid, architectureConfigFileContents);
-            fclose(fid);
-
-            ME = MException('MATLAB:missingData', ...
-            ['Fichier de configuration manquant', newline, ...
-            'Veuillez ajouter vos valeurs au fichier de configuration qui fut cree au chemin suivant: <a href="matlab: open(''%s'')">%s</a>'], configFilePath, configFilePath);
-            throw(ME)
         end
 
         function configContents = readConfig(~, configFilePath)
@@ -119,7 +108,7 @@ classdef Context < handle
     % Create configuration files
     methods (Access=private)
         function generateArchitectureConfig(~)
-            % generateArchitectureConfig  Gemerate a architecture config file
+            % generateArchitectureConfig  Gemerate an architecture config file
             %   Feature implemented for those who delete the architecture config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
@@ -188,7 +177,7 @@ classdef Context < handle
         end
 
         function generateObstaclesConfig(~)
-            % generateObstaclesConfig  Gemerate a obstacle config file
+            % generateObstaclesConfig  Gemerate an obstacle config file
             %   Feature implemented for those who delete the obstacle config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
