@@ -3,7 +3,7 @@ Configuration des cibles à atteindre avec le manipulateur sériel
 
 Nom du fichier de planification après la ligne de '-' (Ex: Planner.m)
 --------------------------------
-Planner.m
+PlannerRRRRRRR_1.m
 
 ==============================================
 Entrez vos paramètres à partir de la ligne 18, après la ligne de '*'
