@@ -1,8 +1,15 @@
 
 % FIXME: uSE VINCENT AND CONTEXT -> FILEHANDLERS
-config_file_path = [pwd filesep 'config.txt'];
 
-robotArchitecture = Context.importConfig(config_file_path);
+architectureConfig = Context.importConfig('architecture.txt', '%s %f %f %f\r\n', 12);
+architectureConfig
+
+targetsConfig = Context.importConfig('cibles.txt', '%f %f %f\r\n', 17);
+targetsConfig
+
+obstaclesConfig = Context.importConfig('obstacles.txt', '%f %f %f\r\n', 11);
+obstaclesConfig
+
 
 % Nombre de membres
 n = length(robotArchitecture{1});

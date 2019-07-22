@@ -90,16 +90,15 @@ classdef Context < handle
             % Si le nombre de valeurs non réelles dans une colonne est différent du restant
             if ~(range(num_elems) == 0)
                 [~, I] = min(num_elems);
-                switch I
-                    case 1
-                        nom_colu = "de type";
-                    case 2
-                        nom_colu = "de longueur";
-                    case 3
-                        nom_colu = "de largeur";
-                    case 4
-                        nom_colu = "d'angle";
+                switch configFilePath
+                    case [pwd filesep 'architecture.txt']
+                        noms_colus = {"de type de joint", "de longueur", "de largeur", "d'angle"};
+                    case [pwd filesep 'cibles.txt']
+                        noms_colus = {"de x", "de y", "d'angle"};
+                    case [pwd filesep 'obstacles.txt']
+                        noms_colus = {"de x", "de y", "de rayon"};
                 end
+                nom_colu = noms_colus{I};
                 ME = MException('MATLAB:missingValue', ...
                     'Il manque des valeurs %s dans le fichier de configuration', nom_colu);
                 throw(ME)
