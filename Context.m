@@ -15,7 +15,7 @@ classdef Context < handle
     % Create or import from configuration file
     methods (Static)
         % TODO: GENERALIZE TO OTHER FILES
-        function out = importConfig(configFilename, strFormat, numHeaderLines, dataCols)
+        function out = importConfig(configFilename)
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file
             %   Checks if the config file is in the folder
@@ -23,9 +23,9 @@ classdef Context < handle
             if ~isfile(configFilePath)
                 Context().createConfigFile(configFilename);
             end
-            configContents = Context().readConfig(configFilePath, strFormat, numHeaderLines);
-            Context().validateContents(configContents, configFilePath, dataCols);
-            out = configContents;
+            [configContents, plannerFileName] = Context().readConfig(configFilePath);
+            Context().validateContents(configContents, configFilePath);
+            out = {configContents; plannerFileName};
         end
     end
 
@@ -35,7 +35,6 @@ classdef Context < handle
             %   Feature implemented for those who delete the config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
-
             switch configFilename
                 case "architecture.txt"
                     generateArchitectureConfig();
@@ -47,14 +46,35 @@ classdef Context < handle
 
         end
 
-        function configContents = readConfig(~, configFilePath)
+        function [configContents, plannerFileName] = readConfig(~, configFilePath)
             % readConfig  Open the config file and return the contents
             %   Return the data inside the configuration file
             %   Looks for float or for what would be floats if this code was written in C.
 
+            % Get strFormat and numHeaderLines from configFilePath
+            switch configFilePath
+                case [pwd filesep 'architecture.txt']
+                    strFormat = '%s %f %f %f\r\n';
+                    numHeaderLines = 12;
+                case [pwd filesep 'cibles.txt']
+                    strFormat = '%f %f %f\r\n';
+                    numHeaderLines = 17;
+                case [pwd filesep 'obstacles.txt']
+                    strFormat = '%f %f %f\r\n';
+                    numHeaderLines = 11;
+            end
+
+            if configFilePath == string([pwd filesep 'cibles.txt'])
+                fid = fopen(configFilePath);
+                plannerFileName = textscan(fid,'%s',1,'delimiter','\n', 'HeaderLines',5);
+                fclose(fid);
+            else
+                plannerFileName = false;
+            end
+
             % Lecture du fichier de configuration
             fileID = fopen(configFilePath, 'r');
-            configContents = textscan(fileID, '%s %f %f %f\r\n', 'HeaderLines', 12);
+            configContents = textscan(fileID, strFormat, 'HeaderLines', numHeaderLines);
             fclose(fileID);
         end
 
@@ -72,7 +92,14 @@ classdef Context < handle
 
             % Verifie si toutes les colonnes ont le même nombre de valeurs
             num_colonnes = numel(configContents);
-            if num_colonnes ~= 4
+            switch configFilePath
+                case [pwd filesep 'architecture.txt']
+                    desiredNumColumns = 4;
+                otherwise
+                    desiredNumColumns = 3;
+            end
+
+            if num_colonnes ~= desiredNumColumns
                 ME = MException('MATLAB:tooMuchData', ...
                 'Une ligne du fichier de configuration a trop de donnees');
                 throw(ME)

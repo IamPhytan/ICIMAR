@@ -1,14 +1,15 @@
 
 % FIXME: uSE VINCENT AND CONTEXT -> FILEHANDLERS
 
-architectureConfig = Context.importConfig('architecture.txt', '%s %f %f %f\r\n', 12);
-architectureConfig
+architectureConfig = Context.importConfig('architecture.txt');
+architectureConfig = architectureConfig{1};
 
-targetsConfig = Context.importConfig('cibles.txt', '%f %f %f\r\n', 17);
-targetsConfig
+targetsConfig = Context.importConfig('cibles.txt');
+plannerFileName = string(targetsConfig{2});
+targetsConfig = targetsConfig{1};
 
-obstaclesConfig = Context.importConfig('obstacles.txt', '%f %f %f\r\n', 11);
-obstaclesConfig
+obstaclesConfig = Context.importConfig('obstacles.txt');
+obstaclesConfig = obstaclesConfig{1};
 
 
 % Nombre de membres
