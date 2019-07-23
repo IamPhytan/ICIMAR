@@ -16,6 +16,10 @@ classdef Arm < handle
     %    plannerFunc       - Planner function handle
     %    vincent           - Instance of Vincent
     %
+    % Arm Target Properties:
+    %    targets           - Array of arm targets
+    %
+    %
     %
     % Arm Setters and Getters:
     %    setTotalLength       - Set total length of the arm
@@ -31,15 +35,30 @@ classdef Arm < handle
     %    setVincent           - Set instance of Vincent
     %    getVincent           - Get instance of Vincent
     %
+    % Arm Target Setter and Getters:
+    %    setTargets           - Set targets
+    %    getTargets           - Get targets
+    %
+    %
     %
     % Arm Methods:
     %    logical              - Return the existence of arm member
     %    computeAbsoluteAngle - Compute absolute angle about the x axis before the i-th member of the arm
     %    getEndX              - Compute ending X coordinate
     %    getEndY              - Compute ending Y coordinate
+    %    addMember            - Add new member of defined length to the arm
     %    render               - Plot the arm in a figure
     %    getMemberValues      - Return the values of valueType for all arm members
     %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
+    %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
+    %
+    %
+    % Arm Target Methods:
+    %    addTarget            - Add new target for the arm
+    %
+    %
+    %
+    %
 
 
     properties (SetAccess = private, GetAccess = public)
@@ -54,6 +73,7 @@ classdef Arm < handle
         largeAxis        = 0;
         plannerFunc;
         vincent;
+        targets;
     end
 
     properties (Access = private)
@@ -78,6 +98,7 @@ classdef Arm < handle
             thisArm.totalLength = 0;
             thisArm.plannerFunc = planner_func;
             thisArm.vincent = Vincent;
+            thisArm.targets = struct('x',{},'y',{}, 'theta', {});
         end
     end
 
@@ -136,6 +157,17 @@ classdef Arm < handle
             % getLargeWindowRange  Get the large window range of the arm
             %   Return the value of largeWindowRange
             out = thisArm.largeWindowRange;
+        end
+
+        function setTargets(thisArm, value)
+            % setTargets  Set the targets of the arm
+            %   Set targets with a value
+            thisArm.targets = value;
+        end
+        function out = getTargets(thisArm)
+            % getTargets  Get the targets of the arm
+            %   Return the value of targets
+            out = thisArm.targets;
         end
     end
 
@@ -308,7 +340,41 @@ classdef Arm < handle
         end
     end
 
-    % Movement
+    % Targets (ICIMAR)
+    methods
+        function addTarget(thisArm, tar_x, tar_y, tar_ang)
+            % addTarget  Add new target for the arm
+            %   Add a target to arm's targets
+            newTargetIndex = length(thisArm.targets) + 1;
+            target = struct;
+            target.x = tar_x;
+            target.y = tar_y;
+            target.theta = tar_ang;
+            thisArm.targets(newTargetIndex) = target;
+        end
+
+        % function rotateMember(thisArm, iMember, rotationAngle)
+        %     % rotateMember  Rotate an arm member
+        %     %   Rotate the iMember-th member by rotationAngle
+        %     for ii_angle = 1:abs(rotationAngle)
+        %             thisArm.members(iMember).setRelAngle(thisArm.members(iMember).getRelAngle() + sign(rotationAngle));
+        %             thisArm.update();
+        %             thisArm.render();
+        %     end
+        % end
+
+        % function slideMember(thisArm, iMember, slideLength)
+        %     % slideMember  Slide an arm member
+        %     %   Slide the iMember-th member by slideLength
+        %     for ii_length = 1:abs(slideLength)
+        %             thisArm.members(iMember).setDiffLength(thisArm.members(iMember).getDiffLength() + sign(slideLength));
+        %             thisArm.update();
+        %             thisArm.render();
+        %     end
+        % end
+    end
+
+    % Movement (ICDMAR)
     methods
         function moveMember(thisArm, iMember, value)
             % moveMember  Move an arm member
