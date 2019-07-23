@@ -12,38 +12,51 @@ obstaclesConfig = Context.importConfig('obstacles.txt');
 plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 
 
+% ARCHITECTURE
+
 % Nombre de membres
-n = length(robotArchitecture{1});
+nArchitecture = length(architectureConfig{1});
 
 % Create Arm
-arm = Arm(n, 0, 0, plannerHandle);
+arm = Arm(nArchitecture, 0, 0, plannerHandle);
 
-kindsOfJoints = ['R', 'P'];
-
-for memberIndex = 1:n
-    jointKind = robotArchitecture{1}{memberIndex};
-    long = robotArchitecture{2}(memberIndex);
-    larg = robotArchitecture{3}(memberIndex);
-    ang = robotArchitecture{4}(memberIndex);
+for memberIndex = 1:nArchitecture
+    jointKind = architectureConfig{1}{memberIndex};
+    long = architectureConfig{2}(memberIndex);
+    larg = architectureConfig{3}(memberIndex);
+    ang = architectureConfig{4}(memberIndex);
     arm.addMember(jointKind, long, larg, ang);
 end
 
+% Nombre de cibles
+nTargets = length(targetsConfig{1});
 
-arm.moveMember(2, 90);
+for targetIndex = 1:nTargets
+    tarX = targetsConfig{1}(targetIndex);
+    tarY = targetsConfig{2}(targetIndex);
+    tarAng = targetsConfig{3}(targetIndex);
+    arm.addTarget(tarX, tarY, tarAng);
+end
+
+
+% Nombre d'obstacles
+nObstacles = length(obstaclesConfig{1});
+
+arm.moveMember(6, 90);
 arm.moveMember(3, 5);
-arm.moveMember(1, -50);
+arm.moveMember(8, -50);
 arm.moveMember(5, -2);
-arm.moveMember(4, -75);
-arm.moveMember(2, 135);
+arm.moveMember(12, -75);
+arm.moveMember(9, 135);
 arm.moveMember(5, 6);
-arm.moveMember(2, 270);
-arm.moveMember(1, 180);
-arm.moveMember(8, 7);
+arm.moveMember(8, 270);
+arm.moveMember(13, 180);
+arm.moveMember(12, 270);
+arm.moveMember(4, 7);
 arm.moveMember(6, 60);
 arm.moveMember(10, 9);
-arm.moveMember(4, -50);
 arm.moveMember(10, -6);
-arm.moveMember(9, 350);
+arm.moveMember(9, 90);
 arm.moveMember(5, -2);
 arm.moveMember(11, 6);
 arm.moveMember(7, 5);
