@@ -49,6 +49,8 @@ for obstacleIndex = 1:nObstacles
     arm.addObstacle(obstX, obstY, obstRad);
 end
 
+arm.moveMember(12, 180);
+arm.moveMember(13, 90);
 arm.moveMember(6, 90);
 arm.moveMember(3, 5);
 arm.moveMember(8, -50);
@@ -57,7 +59,6 @@ arm.moveMember(12, -75);
 arm.moveMember(9, 135);
 arm.moveMember(5, 6);
 arm.moveMember(8, 270);
-arm.moveMember(13, 180);
 arm.moveMember(12, 270);
 arm.moveMember(4, 7);
 arm.moveMember(6, 60);

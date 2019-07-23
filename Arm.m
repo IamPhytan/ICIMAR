@@ -209,9 +209,9 @@ classdef Arm < handle
                 thisArm.lastMember = thisArm.members(end);
                 thisArm.totalLength = thisArm.totalLength + long;
                 thisArm.update();
-                if newMemberIndex == thisArm.armSize
-                    thisArm.render();
-                end
+                % if newMemberIndex == thisArm.armSize
+                %     thisArm.render();
+                % end
             end
         end
 
@@ -273,6 +273,12 @@ classdef Arm < handle
             drawArrow(ax, [0, thisArm.getLargeWindowRange()], [0, 0], 'linewidth',3,'color','k');
             drawArrow(ax, [0, 0], [0, thisArm.getLargeWindowRange()], 'linewidth',3,'color','k');
 
+            % Render Obstacles
+            for iObstacle=1:length(thisArm.obstacles)
+                thisArm.obstacles(iObstacle).x
+                thisArm.drawCircle(ax, thisArm.obstacles(iObstacle).x, thisArm.obstacles(iObstacle).y, 2 * thisArm.obstacles(iObstacle).radius, 'r', 'obstacle');
+            end
+
             thisArm.setAxes(ax);
         end
 
@@ -284,8 +290,10 @@ classdef Arm < handle
                 thisArm.createFigureAndAxes();
             end
 
-            if ~(length(thisArm.renderAxes.Children) == 2)
-                delete(thisArm.renderAxes.Children(1:length(thisArm.renderAxes.Children)-2))
+            numStableGraphics = length(thisArm.obstacles) + 2;
+
+            if ~(length(thisArm.renderAxes.Children) == numStableGraphics)
+                delete(thisArm.renderAxes.Children(1:length(thisArm.renderAxes.Children)-numStableGraphics))
             end
 
             % Plot members
@@ -301,7 +309,7 @@ classdef Arm < handle
             thisArm.renderJoints('P');
 
             eEffector = thisArm.getEndEffector();
-            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), 'g');
+            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), 'g', 'joint');
 
             if ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
                 thisArm.largeAxis = 1;
@@ -361,7 +369,7 @@ classdef Arm < handle
         end
     end
 
-    % Targets (ICIMAR)
+    % Targets & Obstacles (ICIMAR)
     methods
         function addTarget(thisArm, tar_x, tar_y, tar_ang)
             % addTarget  Add new target for the arm
@@ -373,10 +381,7 @@ classdef Arm < handle
             target.theta = tar_ang;
             thisArm.targets(newTargetIndex) = target;
         end
-    end
 
-    % Obstacles (ICIMAR)
-    methods
         function addObstacle(thisArm, obst_x, obst_y, obst_rad)
             % addObstacle  Add new obstacle for the arm
             %   Add a obstacle to arm's obstacles
@@ -385,8 +390,9 @@ classdef Arm < handle
             obstacle.x = obst_x;
             obstacle.y = obst_y;
             obstacle.radius = obst_rad;
-            thisArm.targets(newObstacleIndex) = obstacle;
+            thisArm.obstacles(newObstacleIndex) = obstacle;
         end
+
     end
 
     % Movement (ICDMAR)
@@ -469,17 +475,25 @@ classdef Arm < handle
                 else
                     taille = max(thisArm.members(memberIndex - 1).getWidth(), thisArm.members(memberIndex).getWidth());
                 end
-                thisArm.drawCircle(thisArm.renderAxes, thisArm.members(memberIndex).getX(), thisArm.members(memberIndex).getY(), taille, col);
+                thisArm.drawCircle(thisArm.renderAxes, thisArm.members(memberIndex).getX(), thisArm.members(memberIndex).getY(), taille, col, 'joint');
             end
         end
 
-        function drawCircle(~, drawingAxes, centerX, centerY, diameter, colour)
+        function drawCircle(~, drawingAxes, centerX, centerY, diameter, colour, circleType)
             % drawCircle  Plot circle at center coordinate, with specified diameter
             %   Draw a circle centered on `(centerX, center Y)` with a radius `diameter` and a color `colour`
             r = diameter/2;
             px = centerX-r;
             py = centerY-r;
-            rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', 'b', 'FaceColor', colour);
+
+            switch circleType
+                case "joint"
+                    edgeColour = 'b';
+                otherwise
+                    edgeColour = 'k';
+            end
+
+            rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', edgeColour, 'FaceColor', colour);
         end
     end
 end
