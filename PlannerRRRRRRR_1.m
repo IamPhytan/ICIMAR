@@ -1,8 +1,9 @@
 function [out,Done] = PlannerRRRRRRR_1(CurrentJointAngles,J,Obstacles,xyThetaDot)
-%PLANIFICATEURRRRRRRR_1 Summary of this function goes here
-%   Detailed explanation goes here
+% PlannerRRRRRRR_1 Fonction de planification du manipulateur sériel
+%   L'implémentation de base du planificateur est la suivante :
+%       `out=CurrentJointAngles+pinv(J)*xyThetaDot;`
 
-%Fonction Objective
+% Fonction Objective
 out=CurrentJointAngles+pinv(J)*xyThetaDot;
 
 %out=CurrentJointAngles;
