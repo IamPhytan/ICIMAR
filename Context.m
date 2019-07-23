@@ -11,10 +11,10 @@ classdef Context < handle
     %    generateArchitectureConfig - Gemerate an architecture config file
     %    generateTargetsConfig      - Gemerate a target config file
     %    generateObstaclesConfig    - Gemerate an obstacle config file
+    %    handlizePlannerFilename    - Creates a function handle from string "funcname.m"
 
     % Create or import from configuration file
     methods (Static)
-        % TODO: GENERALIZE TO OTHER FILES
         function out = importConfig(configFilename)
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file
@@ -26,6 +26,19 @@ classdef Context < handle
             [configContents, plannerFileName] = Context().readConfig(configFilePath);
             Context().validateContents(configContents, configFilePath);
             out = {configContents; plannerFileName};
+        end
+
+        function plannerHandle = handlizePlannerFilename(plannerFileName)
+            % handlizePlannerFilename  Creates a function handle from string "funcname.m"
+            %   Feature implemented so that we can add function name in targets configuration files
+            if isfile([pwd filesep plannerFileName])
+                plannerHandle = eval(['@' plannerFileName]);
+            else
+                cibleFilename = [pwd filesep 'cibles.txt'];
+                ME = MException('MATLAB:wrongFilename', ...
+                'La fonction de planification definie dans le fichier <a href="matlab: open(''%s'')">%s</a> est inexistante.', cibleFilename, cibleFilename);
+                throw(ME)
+            end
         end
     end
 

@@ -11,14 +11,7 @@ targetsConfig = targetsConfig{1};
 obstaclesConfig = Context.importConfig('obstacles.txt');
 obstaclesConfig = obstaclesConfig{1};
 
-if isfile([pwd filesep plannerFileName])
-    plannerHandle = eval(['@' plannerFileName]);
-else
-    cibleFilename = [pwd filesep 'cibles.txt'];
-    ME = MException('MATLAB:wrongFilename', ...
-    'La fonction de planification definie dans le fichier <a href="matlab: open(''%s'')">%s</a> est inexistant.', cibleFilename, cibleFilename);
-    throw(ME)
-end
+plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 
 
 % Nombre de membres
