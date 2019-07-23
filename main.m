@@ -16,18 +16,16 @@ plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 n = length(robotArchitecture{1});
 
 % Create Arm
-arm = Arm(n, 0, 0);
+arm = Arm(n, 0, 0, plannerHandle);
 
 kindsOfJoints = ['R', 'P'];
 
 for memberIndex = 1:n
     jointKind = robotArchitecture{1}{memberIndex};
-    if arm.checkJointType(jointKind, memberIndex)
-        long = robotArchitecture{2}(memberIndex);
-        larg = robotArchitecture{3}(memberIndex);
-        ang = robotArchitecture{4}(memberIndex);
-        arm.addMember(jointKind, long, larg, ang);
-    end
+    long = robotArchitecture{2}(memberIndex);
+    larg = robotArchitecture{3}(memberIndex);
+    ang = robotArchitecture{4}(memberIndex);
+    arm.addMember(jointKind, long, larg, ang);
 end
 
 

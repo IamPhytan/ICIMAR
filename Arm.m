@@ -144,19 +144,21 @@ classdef Arm < handle
             % addMember  Add new member of length long to the arm
             %   Add a member to the arm and define if it is the last one.
             newMemberIndex = length(thisArm.members) + 1;
-            newMember = Member(newMemberIndex, jointType, 0, 0, long, larg, initAngle, false);
-            thisArm.members(newMemberIndex) = newMember;
-            if logical(thisArm.lastMember)
-                thisArm.members(newMemberIndex).setParent(thisArm.lastMember);
-            else
-                % Don't want to start by a prismatic joint
-                thisArm.members(newMemberIndex).setJointType('R');
-            end
-            thisArm.lastMember = thisArm.members(end);
-            thisArm.totalLength = thisArm.totalLength + long;
-            thisArm.update();
-            if newMemberIndex == thisArm.armSize
-                thisArm.render();
+            if thisArm.checkJointType(jointType, newMemberIndex)
+                newMember = Member(newMemberIndex, jointType, 0, 0, long, larg, initAngle, false);
+                thisArm.members(newMemberIndex) = newMember;
+                if logical(thisArm.lastMember)
+                    thisArm.members(newMemberIndex).setParent(thisArm.lastMember);
+                else
+                    % Don't want to start by a prismatic joint
+                    thisArm.members(newMemberIndex).setJointType('R');
+                end
+                thisArm.lastMember = thisArm.members(end);
+                thisArm.totalLength = thisArm.totalLength + long;
+                thisArm.update();
+                if newMemberIndex == thisArm.armSize
+                    thisArm.render();
+                end
             end
         end
 
@@ -310,7 +312,7 @@ classdef Arm < handle
     methods
         function moveMember(thisArm, iMember, value)
             % moveMember  Move an arm member
-            %   Move the iMember-th member by value, depending on joinType
+            %   Move the iMember-th member by value, depending on jointType
             if iMember > length(thisArm.members)
                 ME = MException('MATLAB:indexOutOfRange', ...
                 ['Member index out of range', newline, ...
@@ -348,6 +350,20 @@ classdef Arm < handle
 
     % JOINTS METHODS
     methods (Access = private)
+        function checkResult = checkJointType(~, jointKind, memberIndex)
+            % checkJointType  Checks that the feedded joint kind is rotoric or prismatic
+            %   Return an error if not
+            kindsOfJoints = ['R', 'P'];
+
+            if ~any(kindsOfJoints == jointKind)
+                ME = MException('MATLAB:wrongData', ...
+                'Le type de joint %s défini pour le membre %d est incorrect.', jointKind, memberIndex);
+                throw(ME)
+            else
+                checkResult = true;
+            end
+        end
+
         function renderJoints(thisArm, jointKind)
             % renderJoints  Plot the joints of a jointKind in the figure
             %   Plot the joints in it.
@@ -383,22 +399,6 @@ classdef Arm < handle
             px = centerX-r;
             py = centerY-r;
             rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', 'none', 'FaceColor', colour);
-        end
-    end
-
-    methods
-        function checkResult = checkJointType(~, jointKind, memberIndex)
-            % checkJointType  Checks that the feedded joint kind is rotoric or prismatic
-            %   Return an error if not
-            kindsOfJoints = ['R', 'P'];
-
-            if ~any(kindsOfJoints == jointKind)
-                ME = MException('MATLAB:wrongData', ...
-                'Le type de joint %s défini pour le membre %d est incorrect.', jointKind, memberIndex);
-                throw(ME)
-            else
-                checkResult = true;
-            end
         end
     end
 end
