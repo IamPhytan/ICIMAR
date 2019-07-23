@@ -19,6 +19,9 @@ classdef Arm < handle
     % Arm Target Properties:
     %    targets           - Array of arm targets
     %
+    % Arm Obstacle Properties:
+    %    obstacles         - Array of arm obstacles
+    %
     %
     %
     % Arm Setters and Getters:
@@ -39,6 +42,10 @@ classdef Arm < handle
     %    setTargets           - Set targets
     %    getTargets           - Get targets
     %
+    % Arm Target Setter and Getters:
+    %    setObstacles         - Set obstacles
+    %    getObstacles         - Get obstacles
+    %
     %
     %
     % Arm Methods:
@@ -52,10 +59,11 @@ classdef Arm < handle
     %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
     %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
     %
-    %
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
     %
+    % Arm Obstacles Methods:
+    %    addObstacle          - Add new obstacle for the arm
     %
     %
     %
@@ -74,6 +82,7 @@ classdef Arm < handle
         plannerFunc;
         vincent;
         targets;
+        obstacles;
     end
 
     properties (Access = private)
@@ -99,6 +108,7 @@ classdef Arm < handle
             thisArm.plannerFunc = planner_func;
             thisArm.vincent = Vincent;
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
+            thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
         end
     end
 
@@ -168,6 +178,17 @@ classdef Arm < handle
             % getTargets  Get the targets of the arm
             %   Return the value of targets
             out = thisArm.targets;
+        end
+
+        function setObstacles(thisArm, value)
+            % setObstacles  Set the obstacles of the arm
+            %   Set obstacles with a value
+            thisArm.obstacles = value;
+        end
+        function out = getObstacles(thisArm)
+            % getObstacles  Get the obstacles of the arm
+            %   Return the value of obstacles
+            out = thisArm.obstacles;
         end
     end
 
@@ -352,26 +373,20 @@ classdef Arm < handle
             target.theta = tar_ang;
             thisArm.targets(newTargetIndex) = target;
         end
+    end
 
-        % function rotateMember(thisArm, iMember, rotationAngle)
-        %     % rotateMember  Rotate an arm member
-        %     %   Rotate the iMember-th member by rotationAngle
-        %     for ii_angle = 1:abs(rotationAngle)
-        %             thisArm.members(iMember).setRelAngle(thisArm.members(iMember).getRelAngle() + sign(rotationAngle));
-        %             thisArm.update();
-        %             thisArm.render();
-        %     end
-        % end
-
-        % function slideMember(thisArm, iMember, slideLength)
-        %     % slideMember  Slide an arm member
-        %     %   Slide the iMember-th member by slideLength
-        %     for ii_length = 1:abs(slideLength)
-        %             thisArm.members(iMember).setDiffLength(thisArm.members(iMember).getDiffLength() + sign(slideLength));
-        %             thisArm.update();
-        %             thisArm.render();
-        %     end
-        % end
+    % Obstacles (ICIMAR)
+    methods
+        function addObstacle(thisArm, obst_x, obst_y, obst_rad)
+            % addObstacle  Add new obstacle for the arm
+            %   Add a obstacle to arm's obstacles
+            newObstacleIndex = length(thisArm.obstacles) + 1;
+            obstacle = struct;
+            obstacle.x = obst_x;
+            obstacle.y = obst_y;
+            obstacle.radius = obst_rad;
+            thisArm.targets(newObstacleIndex) = obstacle;
+        end
     end
 
     % Movement (ICDMAR)

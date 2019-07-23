@@ -42,6 +42,13 @@ end
 % Nombre d'obstacles
 nObstacles = length(obstaclesConfig{1});
 
+for obstacleIndex = 1:nObstacles
+    obstX = obstaclesConfig{1}(obstacleIndex);
+    obstY = obstaclesConfig{2}(obstacleIndex);
+    obstRad = obstaclesConfig{3}(obstacleIndex);
+    arm.addObstacle(obstX, obstY, obstRad);
+end
+
 arm.moveMember(6, 90);
 arm.moveMember(3, 5);
 arm.moveMember(8, -50);
