@@ -370,9 +370,9 @@ classdef Arm < handle
 
             switch lower(jointKind)
                 case "r"
-                    col = [0.8500, 0.3250, 0.0980];
+                    col = 'y';
                 case "p"
-                    col = [0.4940, 0.1840, 0.5560];
+                    col = 'm';
                 otherwise
                     ME = MException('MATLAB:wrongData', ...
                     'Le type de joint %s défini pour le membre est incorrect.', jointKind);
@@ -398,7 +398,7 @@ classdef Arm < handle
             r = diameter/2;
             px = centerX-r;
             py = centerY-r;
-            rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', 'none', 'FaceColor', colour);
+            rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', 'b', 'FaceColor', colour);
         end
     end
 end
