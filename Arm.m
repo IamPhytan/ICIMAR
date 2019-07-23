@@ -15,6 +15,7 @@ classdef Arm < handle
     %    largeAxis         - Large window range
     %    plannerFunc       - Planner function handle
     %    vincent           - Instance of Vincent
+    %    checkJointType    - Checks that the feedded joint kind is rotoric or prismatic
     %
     %
     % Arm Setters and Getters:
@@ -382,6 +383,22 @@ classdef Arm < handle
             px = centerX-r;
             py = centerY-r;
             rectangle(drawingAxes, 'Position',[px py diameter diameter],'Curvature',[1,1], 'EdgeColor', 'none', 'FaceColor', colour);
+        end
+    end
+
+    methods
+        function checkResult = checkJointType(~, jointKind, memberIndex)
+            % checkJointType  Checks that the feedded joint kind is rotoric or prismatic
+            %   Return an error if not
+            kindsOfJoints = ['R', 'P'];
+
+            if ~any(kindsOfJoints == jointKind)
+                ME = MException('MATLAB:wrongData', ...
+                'Le type de joint %s défini pour le membre %d est incorrect.', jointKind, memberIndex);
+                throw(ME)
+            else
+                checkResult = true;
+            end
         end
     end
 end

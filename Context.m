@@ -23,9 +23,13 @@ classdef Context < handle
             if ~isfile(configFilePath)
                 Context().createConfigFile(configFilename);
             end
-            [configContents, plannerFileName] = Context().readConfig(configFilePath);
-            Context().validateContents(configContents, configFilePath);
-            out = {configContents; plannerFileName};
+            configContents = Context().readConfig(configFilePath);
+            if configFilename == "cibles.txt"
+                Context().validateContents(configContents{1}, configFilePath);
+            else
+                Context().validateContents(configContents, configFilePath);
+            end
+            out = configContents;
         end
 
         function plannerHandle = handlizePlannerFilename(plannerFileName)
@@ -59,7 +63,7 @@ classdef Context < handle
 
         end
 
-        function [configContents, plannerFileName] = readConfig(~, configFilePath)
+        function out = readConfig(~, configFilePath)
             % readConfig  Open the config file and return the contents
             %   Return the data inside the configuration file
             %   Looks for float or for what would be floats if this code was written in C.
@@ -77,18 +81,20 @@ classdef Context < handle
                     numHeaderLines = 11;
             end
 
-            if configFilePath == string([pwd filesep 'cibles.txt'])
-                fid = fopen(configFilePath);
-                plannerFileName = textscan(fid,'%s',1,'delimiter','\n', 'HeaderLines',5);
-                fclose(fid);
-            else
-                plannerFileName = false;
-            end
-
             % Lecture du fichier de configuration
             fileID = fopen(configFilePath, 'r');
             configContents = textscan(fileID, strFormat, 'HeaderLines', numHeaderLines);
             fclose(fileID);
+
+            % Récupération du Planner Filename
+            if configFilePath == string([pwd filesep 'cibles.txt'])
+                fid = fopen(configFilePath);
+                plannerFileName = textscan(fid,'%s',1,'delimiter','\n', 'HeaderLines',5);
+                fclose(fid);
+                out = {configContents, plannerFileName};
+            else
+                out = configContents;
+            end
         end
 
         function validateContents(~, configContents, configFilePath)

@@ -2,14 +2,12 @@
 % FIXME: uSE VINCENT AND CONTEXT -> FILEHANDLERS
 
 architectureConfig = Context.importConfig('architecture.txt');
-architectureConfig = architectureConfig{1};
 
 targetsConfig = Context.importConfig('cibles.txt');
 plannerFileName = char(targetsConfig{2}{1});
 targetsConfig = targetsConfig{1};
 
 obstaclesConfig = Context.importConfig('obstacles.txt');
-obstaclesConfig = obstaclesConfig{1};
 
 plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 
@@ -23,17 +21,13 @@ arm = Arm(n, 0, 0);
 kindsOfJoints = ['R', 'P'];
 
 for memberIndex = 1:n
-    % TODO: MOVE CODE ELSEWHERE
     jointKind = robotArchitecture{1}{memberIndex};
-    if ~any(kindsOfJoints == jointKind)
-        ME = MException('MATLAB:wrongData', ...
-        'Le type de joint %s défini pour le membre %d est incorrect.', jointKind, memberIndex);
-        throw(ME)
+    if arm.checkJointType(jointKind, memberIndex)
+        long = robotArchitecture{2}(memberIndex);
+        larg = robotArchitecture{3}(memberIndex);
+        ang = robotArchitecture{4}(memberIndex);
+        arm.addMember(jointKind, long, larg, ang);
     end
-    long = robotArchitecture{2}(memberIndex);
-    larg = robotArchitecture{3}(memberIndex);
-    ang = robotArchitecture{4}(memberIndex);
-    arm.addMember(jointKind, long, larg, ang);
 end
 
 
