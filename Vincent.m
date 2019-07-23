@@ -103,6 +103,7 @@ classdef Vincent < handle
 
 
             % TODO: Reimplement with a while loop
+            % TODO: Function in Arm ?
 
             % WTF is going on here
 
@@ -116,8 +117,8 @@ classdef Vincent < handle
                 Done=1;
                 %xyThetaDot=xyThetaRequest;
             end
-            %Calculs prochain pas de temps et fonction de plnaification avec
-            %projection dans le noyeau
+            % Calculs prochain pas de temps et fonction de plnaification avec
+            % projection dans le noyeau
             [thetaOutMemory]=Planner(thetaOutMemory,J,obstacles,xyThetaDot);
         end
     end

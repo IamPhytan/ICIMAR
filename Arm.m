@@ -13,6 +13,8 @@ classdef Arm < handle
     %    smallWindowRange  - Small window range
     %    largeWindowRange  - Large window range
     %    largeAxis         - Large window range
+    %    plannerFunc       - Planner function handle
+    %    vincent           - Instance of Vincent
     %
     %
     % Arm Setters and Getters:
@@ -24,6 +26,10 @@ classdef Arm < handle
     %    getSmallWindowRange  - Get small window range of the arm
     %    setLargeWindowRange  - Set large window range of the arm
     %    getLargeWindowRange  - Get large window range of the arm
+    %    setPlannerFunc       - Set planner function handle
+    %    getPlannerFunc       - Get planner function handle
+    %    setVincent           - Set instance of Vincent
+    %    getVincent           - Get instance of Vincent
     %
     %
     % Arm Methods:
@@ -45,6 +51,8 @@ classdef Arm < handle
         smallWindowRange;
         largeWindowRange;
         largeAxis        = 0;
+        plannerFunc;
+        vincent;
     end
 
     properties (Access = private)
@@ -53,7 +61,7 @@ classdef Arm < handle
 
     % Constructor
     methods
-        function thisArm = Arm(armsize, base_x, base_y)
+        function thisArm = Arm(armsize, base_x, base_y, planner_func)
             % Construct an instance of member
             if nargin == 0
                 thisArm.x = 0;
@@ -67,6 +75,8 @@ classdef Arm < handle
             thisArm.members = Member.empty;
             thisArm.lastMember = false;
             thisArm.totalLength = 0;
+            thisArm.plannerFunc = planner_func;
+            thisArm.vincent = Vincent;
         end
     end
 
@@ -137,7 +147,6 @@ classdef Arm < handle
             thisArm.members(newMemberIndex) = newMember;
             if logical(thisArm.lastMember)
                 thisArm.members(newMemberIndex).setParent(thisArm.lastMember);
-                thisArm.members;
             else
                 % Don't want to start by a prismatic joint
                 thisArm.members(newMemberIndex).setJointType('R');
