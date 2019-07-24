@@ -34,13 +34,13 @@ classdef Vincent < handle
 
     % Robot Generique
     methods (Access = private)
-        function [thetaOut,xyPins,Done] = robotGenerique(thisVincent, architecture,initialStates,lengths,xyThetaDotMax,xyThetaRequest,Planner,obstacles)
+        function xyPins = robotGenerique(thisVincent, architecture,initialStates,lengths,xyThetaDotMax,xyThetaRequest,Planner,obstacles)
             % robotGenerique  Calcule les valeurs d'angle et de x/y pour déplacer le robot
             %   Prend l'architecture, les angles, les longueurs de membres, les vitesses maximales, les cibles, le planificateur et les obstacles
             %
             % :param thisVincent: cette instance de Vincent
             % :param architecture: architecture du robot (char array)
-            % :param initialStates: angles initials du robot (array)
+            % :param initialStates: angles relatifs initiaux du robot (array)
             % :param lengths: longueurs initales des membres du robot
             % :param xyThetaDotMax: vitesses maximales de l'organe terminal
             % :param xyThetaRequest: cibles du robot (struct array)
@@ -57,7 +57,8 @@ classdef Vincent < handle
 
             n=length(architecture);
 
-
+            % Condition initiales
+            div = 50;
 
             % SÉRIES DE DONNÉES
 
@@ -69,7 +70,7 @@ classdef Vincent < handle
             % Vitesses
             xdot = zeros(1, n);
             ydot = zeros(1, n);
-            thetadot = ones(1, n);
+            thetadot = double(architecture' == 'R');
 
 
             % CONDITONS INITIALES
@@ -132,7 +133,23 @@ classdef Vincent < handle
             %   Call robotGenerique with proper arguments
 
             architecture = (reachingArm.getMemberValues("architecture"))';
-            initialStates = (reachingArm.getMemberValues("absangle"))';
+            initialStates = (reachingArm.getMemberValues("relangle"))';
+            lengths = ;
+            maximalSpeeds = reachingArm.getMaximalSpeeds();
+
+
+
+
+            % Get request list
+            targetsToReach = reachingArm.getTargets();
+            nTargets = length(targetsToReach);
+            request = zeros(1, nTargets);
+            for iTarget=1:nTargets
+                target = targetsToReach(iTarget);
+                request(iTarget) = [target.x ; target.y; target.theta];
+            end
+
+            plannerHandle = reachingArm.getPlannerFunc();
 
 
 
@@ -144,13 +161,13 @@ classdef Vincent < handle
 
 
 
-             % :param initialStates: angles initials du robot (array)
+
             % :param lengths: longueurs initales des membres du robot
             % :param xyThetaDotMax: vitesses maximales de l'organe terminal
             % :param xyThetaRequest: cibles du robot (struct array)
             % :param Planner: fonctions de planification à implémenter dans le cadre du cours Éléments de Robotique GMC-3351 / GMC-7046
             % :param obstacles: obstacles sur le parcours du robot
-            % :returns thetaOut: final angles
+            % :returns thetaOut: final relative angles
             % :returns xyPins: joint coordinates
             % :returns Done: flag to indicate that the point was reached
 
