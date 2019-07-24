@@ -367,6 +367,8 @@ classdef Arm < handle
                     values = arrayfun(@getInitLength, thisArm.members);
                 case "diffLength"
                     values = arrayfun(@getDiffLength, thisArm.members);
+                case "totalLength"
+                    values = arrayfun(@getDiffLength, thisArm.members) + arrayfun(@getInitLength, thisArm.members);
                 case "width"
                     values = arrayfun(@getWidth, thisArm.members);
                 case "relangle"
