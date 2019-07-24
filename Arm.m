@@ -13,6 +13,7 @@ classdef Arm < handle
     %    smallWindowRange  - Small window range
     %    largeWindowRange  - Large window range
     %    largeAxis         - Large window range
+    %    maxEndSpeeds      - Maximal end effector speeds
     %    plannerFunc       - Planner function handle
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %
@@ -33,6 +34,8 @@ classdef Arm < handle
     %    getSmallWindowRange  - Get small window range of the arm
     %    setLargeWindowRange  - Set large window range of the arm
     %    getLargeWindowRange  - Get large window range of the arm
+    %    setMaxEndSpeeds      - Set max end effector speeds
+    %    getMaxEndSpeeds      - Get max end effector speeds
     %    setPlannerFunc       - Set planner function handle
     %    getPlannerFunc       - Get planner function handle
     %
@@ -77,6 +80,7 @@ classdef Arm < handle
         smallWindowRange;
         largeWindowRange;
         largeAxis        = 0;
+        maxEndSpeeds;
         plannerFunc;
         targets;
         obstacles;
@@ -89,7 +93,7 @@ classdef Arm < handle
 
     % Constructor
     methods
-        function thisArm = Arm(armsize, base_x, base_y, planner_func, change_axis)
+        function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, change_axis)
             % Construct an instance of member
             if nargin == 0
                 thisArm.x = 0;
@@ -103,6 +107,7 @@ classdef Arm < handle
             thisArm.members = Member.empty;
             thisArm.lastMember = false;
             thisArm.totalLength = 0;
+            thisArm.maxEndSpeeds = max_speeds;
             thisArm.plannerFunc = planner_func;
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
@@ -165,6 +170,17 @@ classdef Arm < handle
             % getLargeWindowRange  Get the large window range of the arm
             %   Return the value of largeWindowRange
             out = thisArm.largeWindowRange;
+        end
+
+        function setMaxEndSpeeds(thisArm, value)
+            % setMaxEndSpeeds  Set the max arm's end effector speeds
+            %   Set maxEndSpeeds with a value
+            thisArm.maxEndSpeeds = value;
+        end
+        function out = getMaxEndSpeeds(thisArm)
+            % getMaxEndSpeeds  Get the max arm's end effector speeds
+            %   Return the value of maxEndSpeeds
+            out = thisArm.maxEndSpeeds;
         end
 
         function setPlannerFunc(thisArm, value)

@@ -7,7 +7,7 @@ architectureConfig = Context.importConfig('architecture.txt');
 % Import targets configuration
 targetsConfig = Context.importConfig('cibles.txt');
 plannerFileName = char(targetsConfig{2}{1});
-maximalSpeeds = targetsConfig{3}
+maximalSpeeds = cell2mat(targetsConfig{3});
 targetsConfig = targetsConfig{1};
 
 % Import obstacles configuration
@@ -23,7 +23,7 @@ plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 nArchitecture = length(architectureConfig{1});
 
 % Create Arm
-arm = Arm(nArchitecture, 0, 0, plannerHandle, changeAxis);
+arm = Arm(nArchitecture, 0, 0, maximalSpeeds, plannerHandle, changeAxis);
 
 for memberIndex = 1:nArchitecture
     jointKind = architectureConfig{1}{memberIndex};

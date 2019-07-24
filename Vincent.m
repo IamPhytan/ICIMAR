@@ -135,7 +135,7 @@ classdef Vincent < handle
             architecture = (reachingArm.getMemberValues("architecture"))';
             initialStates = (reachingArm.getMemberValues("relangle"))';
             lengths = ;
-            maximalSpeeds = reachingArm.getMaximalSpeeds();
+            maximalEndSpeeds = reachingArm.getMaxEndSpeeds();
 
 
 
