@@ -132,6 +132,29 @@ classdef Vincent < handle
             %   Call robotGenerique with proper arguments
 
             architecture = (reachingArm.getMemberValues("architecture"))';
+            initialStates = (reachingArm.getMemberValues("absangle"))';
+
+
+
+
+
+
+
+
+
+
+
+             % :param initialStates: angles initials du robot (array)
+            % :param lengths: longueurs initales des membres du robot
+            % :param xyThetaDotMax: vitesses maximales de l'organe terminal
+            % :param xyThetaRequest: cibles du robot (struct array)
+            % :param Planner: fonctions de planification à implémenter dans le cadre du cours Éléments de Robotique GMC-3351 / GMC-7046
+            % :param obstacles: obstacles sur le parcours du robot
+            % :returns thetaOut: final angles
+            % :returns xyPins: joint coordinates
+            % :returns Done: flag to indicate that the point was reached
+
+
 
 
 
