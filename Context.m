@@ -75,7 +75,7 @@ classdef Context < handle
                     numHeaderLines = 12;
                 case [pwd filesep 'cibles.txt']
                     strFormat = '%f %f %f\r\n';
-                    numHeaderLines = 17;
+                    numHeaderLines = 25;
                 case [pwd filesep 'obstacles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 11;
@@ -90,8 +90,10 @@ classdef Context < handle
             if configFilePath == string([pwd filesep 'cibles.txt'])
                 fid = fopen(configFilePath);
                 plannerFileName = textscan(fid,'%s',1,'delimiter','\n', 'HeaderLines',5);
+                frewind(fileID);
+                maximalSpeeds = textscan(fid,'%f %f %f',1,'delimiter','\n', 'HeaderLines',13);
                 fclose(fid);
-                out = {configContents, plannerFileName};
+                out = {configContents, plannerFileName, maximalSpeeds};
             else
                 out = configContents;
             end

@@ -7,6 +7,7 @@ architectureConfig = Context.importConfig('architecture.txt');
 % Import targets configuration
 targetsConfig = Context.importConfig('cibles.txt');
 plannerFileName = char(targetsConfig{2}{1});
+maximalSpeeds = targetsConfig{3}
 targetsConfig = targetsConfig{1};
 
 % Import obstacles configuration
