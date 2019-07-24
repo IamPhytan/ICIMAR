@@ -343,6 +343,8 @@ classdef Arm < handle
             switch lower(valueType)
                 case "index"
                     values = arrayfun(@getIndex, thisArm.members);
+                case "architecture"
+                    values = arrayfun(@getJointType, thisArm.members);
                 case "x"
                     values = arrayfun(@getX, thisArm.members);
                 case "y"
