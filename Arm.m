@@ -167,6 +167,17 @@ classdef Arm < handle
             out = thisArm.largeWindowRange;
         end
 
+        function setPlannerFunc(thisArm, value)
+            % setPlannerFunc  Set the planner function handle
+            %   Set plannerFunc with a value
+            thisArm.plannerFunc = value;
+        end
+        function out = getPlannerFunc(thisArm)
+            % getPlannerFunc  Get the planner function handle
+            %   Return the value of plannerFunc
+            out = thisArm.plannerFunc;
+        end
+
         function setTargets(thisArm, value)
             % setTargets  Set the targets of the arm
             %   Set targets with a value
