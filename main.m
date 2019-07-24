@@ -49,6 +49,9 @@ for obstacleIndex = 1:nObstacles
     arm.addObstacle(obstX, obstY, obstRad);
 end
 
+vinc = Vincent;
+vinc.reachTargets(arm);
+
 arm.moveMember(12, 180);
 arm.moveMember(13, 90);
 arm.moveMember(6, 90);

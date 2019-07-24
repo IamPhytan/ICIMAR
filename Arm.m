@@ -57,10 +57,10 @@ classdef Arm < handle
     %    render               - Plot the arm in a figure
     %    getMemberValues      - Return the values of valueType for all arm members
     %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
-    %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
     %
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
+    %    setParamsFromXandY   - Set members parameters from x and y arrays
     %
     % Arm Obstacles Methods:
     %    addObstacle          - Add new obstacle for the arm
@@ -395,6 +395,18 @@ classdef Arm < handle
             thisArm.obstacles(newObstacleIndex) = obstacle;
         end
 
+        % TODO:
+        function setParamsFromXandY(thisArm, xs, ys)
+            % setParamsFromXandY  Set members parameters from x and y arrays
+            %   Convert x and y arrays to members params for Vincent Code
+            % newObstacleIndex = length(thisArm.obstacles) + 1;
+            % obstacle = struct;
+            % obstacle.x = obst_x;
+            % obstacle.y = obst_y;
+            % obstacle.radius = obst_rad;
+            % thisArm.obstacles(newObstacleIndex) = obstacle;
+            a = 5;
+        end
     end
 
     % Movement (ICDMAR)
@@ -461,7 +473,7 @@ classdef Arm < handle
                 case "r"
                     col = 'y';
                 case "p"
-                    col = 'm';
+                    col = 'g';
                 otherwise
                     ME = MException('MATLAB:wrongData', ...
                     'Le type de joint %s défini pour le membre est incorrect.', jointKind);

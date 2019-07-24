@@ -33,7 +33,7 @@ classdef Vincent < handle
     end
 
     % Robot Generique
-    methods
+    methods (Access = private)
         function [thetaOut,xyPins,Done] = robotGenerique(thisVincent, architecture,initialStates,lengths,xyThetaDotMax,xyThetaRequest,Planner,obstacles)
             % robotGenerique  Calcule les valeurs d'angle et de x/y pour déplacer le robot
             %   Prend l'architecture, les angles, les longueurs de membres, les vitesses maximales, les cibles, le planificateur et les obstacles
@@ -120,6 +120,19 @@ classdef Vincent < handle
             % Calculs prochain pas de temps et fonction de plnaification avec
             % projection dans le noyeau
             [thetaOutMemory]=Planner(thetaOutMemory,J,obstacles,xyThetaDot);
+        end
+    end
+
+
+
+
+
+    methods
+        function reachTargets(thisArm)
+            % reachTargets  Reach predefined targets
+            %   Call reachTarget with proper arguments
+
+
         end
     end
 end
