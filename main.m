@@ -1,14 +1,17 @@
 
-% FIXME: uSE VINCENT AND CONTEXT -> FILEHANDLERS
 
+% Import architecture configuration
 architectureConfig = Context.importConfig('architecture.txt');
 
+% Import targets configuration
 targetsConfig = Context.importConfig('cibles.txt');
 plannerFileName = char(targetsConfig{2}{1});
 targetsConfig = targetsConfig{1};
 
+% Import obstacles configuration
 obstaclesConfig = Context.importConfig('obstacles.txt');
 
+% Handlize planner function
 plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 
 
@@ -28,6 +31,8 @@ for memberIndex = 1:nArchitecture
     arm.addMember(jointKind, long, larg, ang);
 end
 
+% CIBLES
+
 % Nombre de cibles
 nTargets = length(targetsConfig{1});
 
@@ -38,6 +43,7 @@ for targetIndex = 1:nTargets
     arm.addTarget(tarX, tarY, tarAng);
 end
 
+% OBSTACLES
 
 % Nombre d'obstacles
 nObstacles = length(obstaclesConfig{1});
@@ -48,6 +54,8 @@ for obstacleIndex = 1:nObstacles
     obstRad = obstaclesConfig{3}(obstacleIndex);
     arm.addObstacle(obstX, obstY, obstRad);
 end
+
+arm.render();
 
 vinc = Vincent;
 vinc.reachTargets(arm);
@@ -72,10 +80,6 @@ arm.moveMember(5, -2);
 arm.moveMember(11, 6);
 arm.moveMember(7, 5);
 arm.moveMember(8, 20);
-% arm.rotateMember(5, 800);
-% arm.rotateMember(1, 90);
-% arm.getValues("relAngle")
-% arm.getValues("absAngle")
 
 eEffector = arm.getEndEffector();
 
