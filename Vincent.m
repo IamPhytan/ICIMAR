@@ -103,13 +103,12 @@ classdef Vincent < handle
 
 
             % TODO: Reimplement with a while loop
-            % TODO: Function in Arm ?
 
             % WTF is going on here
 
             % Limiteur de vitesses (Créer Lignes droites en meme temps)
             xyThetaDot=xyThetaRequest-[xyPins(:,n);phi(n)];
-            div=max(abs(xyThetaDot)./xyThetaDotMax)
+            div=max(abs(xyThetaDot)./xyThetaDotMax);
             if(div > 1)
                 xyThetaDot=xyThetaDot/div;
                 Done=0;
@@ -128,9 +127,13 @@ classdef Vincent < handle
 
 
     methods
-        function reachTargets(thisArm)
+        function reachTargets(thisVincent, reachingArm)
             % reachTargets  Reach predefined targets
-            %   Call reachTarget with proper arguments
+            %   Call robotGenerique with proper arguments
+
+            architecture = (reachingArm.getMemberValues("architecture"))';
+
+
 
 
         end

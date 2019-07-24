@@ -209,9 +209,6 @@ classdef Arm < handle
                 thisArm.lastMember = thisArm.members(end);
                 thisArm.totalLength = thisArm.totalLength + long;
                 thisArm.update();
-                % if newMemberIndex == thisArm.armSize
-                %     thisArm.render();
-                % end
             end
         end
 
@@ -275,7 +272,6 @@ classdef Arm < handle
 
             % Render Obstacles
             for iObstacle=1:length(thisArm.obstacles)
-                thisArm.obstacles(iObstacle).x
                 thisArm.drawCircle(ax, thisArm.obstacles(iObstacle).x, thisArm.obstacles(iObstacle).y, 2 * thisArm.obstacles(iObstacle).radius, 'r', 'obstacle');
             end
 
