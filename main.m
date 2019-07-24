@@ -1,4 +1,5 @@
 
+changeAxis = false;
 
 % Import architecture configuration
 architectureConfig = Context.importConfig('architecture.txt');
@@ -21,7 +22,7 @@ plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 nArchitecture = length(architectureConfig{1});
 
 % Create Arm
-arm = Arm(nArchitecture, 0, 0, plannerHandle);
+arm = Arm(nArchitecture, 0, 0, plannerHandle, changeAxis);
 
 for memberIndex = 1:nArchitecture
     jointKind = architectureConfig{1}{memberIndex};

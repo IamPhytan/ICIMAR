@@ -14,7 +14,7 @@ classdef Arm < handle
     %    largeWindowRange  - Large window range
     %    largeAxis         - Large window range
     %    plannerFunc       - Planner function handle
-    %    vincent           - Instance of Vincent
+    %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %
     % Arm Target Properties:
     %    targets           - Array of arm targets
@@ -35,8 +35,6 @@ classdef Arm < handle
     %    getLargeWindowRange  - Get large window range of the arm
     %    setPlannerFunc       - Set planner function handle
     %    getPlannerFunc       - Get planner function handle
-    %    setVincent           - Set instance of Vincent
-    %    getVincent           - Get instance of Vincent
     %
     % Arm Target Setter and Getters:
     %    setTargets           - Set targets
@@ -80,9 +78,9 @@ classdef Arm < handle
         largeWindowRange;
         largeAxis        = 0;
         plannerFunc;
-        vincent;
         targets;
         obstacles;
+        evolutiveAxis;
     end
 
     properties (Access = private)
@@ -91,7 +89,7 @@ classdef Arm < handle
 
     % Constructor
     methods
-        function thisArm = Arm(armsize, base_x, base_y, planner_func)
+        function thisArm = Arm(armsize, base_x, base_y, planner_func, change_axis)
             % Construct an instance of member
             if nargin == 0
                 thisArm.x = 0;
@@ -106,9 +104,9 @@ classdef Arm < handle
             thisArm.lastMember = false;
             thisArm.totalLength = 0;
             thisArm.plannerFunc = planner_func;
-            thisArm.vincent = Vincent;
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
+            thisArm.evolutiveAxis = change_axis;
         end
     end
 
@@ -260,8 +258,13 @@ classdef Arm < handle
             thisArm.setLargeWindowRange(round(1.25 * thisArm.getTotalLength(), -1) + 10);
 
             % Axis limits
-            xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            if thisArm.evolutiveAxis
+                xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+                ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            else
+                xlim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+                ylim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+            end
 
             % Function to draw arrows
             drawArrow = @(plotAxes, x,y, varargin) quiver(plotAxes, x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin{:} );
@@ -307,11 +310,11 @@ classdef Arm < handle
             eEffector = thisArm.getEndEffector();
             thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), 'g', 'joint');
 
-            if ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
+            if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
                 thisArm.largeAxis = 1;
                 xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
                 ylim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            elseif thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
+            elseif thisArm.evolutiveAxis && thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
                 thisArm.largeAxis = 0;
                 xlim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
                 ylim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
@@ -394,7 +397,7 @@ classdef Arm < handle
         % TODO:
         function setParamsFromXandY(thisArm, xs, ys)
             % setParamsFromXandY  Set members parameters from x and y arrays
-            %   Convert x and y arrays to members params for Vincent Code
+            %   Convert x and y arrays to members params for Vincent's Code
             % newObstacleIndex = length(thisArm.obstacles) + 1;
             % obstacle = struct;
             % obstacle.x = obst_x;
