@@ -379,11 +379,11 @@ classdef Arm < handle
                     values = thisArm.members(arrayfun(@getJointType, thisArm.members) == 'R');
                 case "pmembers"
                     values = thisArm.members(arrayfun(@getJointType, thisArm.members) == 'P');
-                case "initLength"
+                case "initlength"
                     values = arrayfun(@getInitLength, thisArm.members);
-                case "diffLength"
+                case "difflength"
                     values = arrayfun(@getDiffLength, thisArm.members);
-                case "totalLength"
+                case "totallength"
                     values = arrayfun(@getDiffLength, thisArm.members) + arrayfun(@getInitLength, thisArm.members);
                 case "width"
                     values = arrayfun(@getWidth, thisArm.members);
@@ -391,6 +391,10 @@ classdef Arm < handle
                     values = arrayfun(@getRelAngle, thisArm.members);
                 case "absangle"
                     values = arrayfun(@getAbsAngle, thisArm.members);
+                case "endx"
+                    values = arrayfun(@getEndX, thisArm.members);
+                case "endy"
+                    values = arrayfun(@getEndY, thisArm.members);
                 case "parent"
                     values = arrayfun(@getParent, thisArm.members, 'UniformOutput', false);
                 otherwise
