@@ -391,6 +391,10 @@ classdef Arm < handle
                     values = arrayfun(@getRelAngle, thisArm.members);
                 case "absangle"
                     values = arrayfun(@getAbsAngle, thisArm.members);
+                case "radrelangle"
+                    values = arrayfun(@deg2rad, thisArm.getMemberValues("relangle"));
+                case "radabsangle"
+                    values = arrayfun(@deg2rad, thisArm.getMemberValues("absangle"));
                 case "endx"
                     values = arrayfun(@getEndX, thisArm.members);
                 case "endy"
