@@ -71,7 +71,7 @@ classdef Vincent < handle
                 % Limiteur de vitesses
                 xyThetaDot=xyThetaRequest-currentPos;
                 div=max(abs(xyThetaDot)./xyThetaDotMax);
-                xyThetaDot = xyThetaDot / (div^(div > 1));
+                xyThetaDot = xyThetaDot ./ (div.^(div > 1));
 
                 % Calculs du prochain état par fonction de planification avec projection dans le noyeau
                 relAngles = Planner(relAngles, J, obstacles, xyThetaDot);
@@ -134,7 +134,7 @@ classdef Vincent < handle
                 % Requête
                 request = targetsList(:, iRequest);
 
-                robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
+                thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
             end
 
 

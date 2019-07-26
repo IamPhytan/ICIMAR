@@ -36,7 +36,7 @@ classdef Context < handle
             % handlizePlannerFilename  Creates a function handle from string "funcname.m"
             %   Feature implemented so that we can add function name in targets configuration files
             if isfile([pwd filesep plannerFileName])
-                plannerHandle = eval(['@' plannerFileName]);
+                plannerHandle = eval(['@' plannerFileName(1:end-2)]);
             else
                 cibleFilename = [pwd filesep 'cibles.txt'];
                 ME = MException('MATLAB:wrongFilename', ...
