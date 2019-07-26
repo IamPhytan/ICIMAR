@@ -25,7 +25,6 @@ classdef Vincent < handle
             % :param xyThetaDotMax: vitesses maximales de l'organe terminal
             % :param obstacles: obstacles sur le parcours du robot
             % :param Planner: fonctions de planification à implémenter dans le cadre du cours Éléments de Robotique GMC-3351 / GMC-7046
-            % :returns xyPins: joint coordinates
 
 
             % CONSTANTES LIÉES À L'ARCHITECTURE
@@ -136,26 +135,12 @@ classdef Vincent < handle
                 % Requête
                 request = targetsList(:, iRequest);
 
+                fprintf('Cible a atteindre : \n===============\n\nx: %f, y: %f, theta: %f%c\n\n', request(1), request(2), rad2deg(request(3)), char(0176))
+
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
+
+                disp('Cible trouvee !\n')
             end
-
-
-
-
-
-
-
-
-
-            % :returns thetaOut: final relative angles
-            % :returns xyPins: joint coordinates
-            % :returns Done: flag to indicate that the point was reached
-
-
-
-
-
-
         end
     end
 end
