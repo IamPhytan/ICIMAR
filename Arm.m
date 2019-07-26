@@ -434,17 +434,36 @@ classdef Arm < handle
             thisArm.obstacles(newObstacleIndex) = obstacle;
         end
 
-        % TODO:
+        % TODO: Verify that the xs and ys are good for Ps and Rs
         function setParamsFromXandY(thisArm, xs, ys)
             % setParamsFromXandY  Set members parameters from x and y arrays
             %   Convert x and y arrays to members params for Vincent's Code
-            % newObstacleIndex = length(thisArm.obstacles) + 1;
-            % obstacle = struct;
-            % obstacle.x = obst_x;
-            % obstacle.y = obst_y;
-            % obstacle.radius = obst_rad;
-            % thisArm.obstacles(newObstacleIndex) = obstacle;
-            a = 5;
+            for iPoint=1:length(xs)-1
+                dx = xs(iPoint + 1) - xs(iPoint);
+                dy = ys(iPoint + 1) - ys(iPoint);
+
+                % Angles
+                effectiveAbsAngle = rad2deg(atan2(dy, dx));
+                if iPoint == 1
+                    effRelAngle = effectiveAbsAngle;
+                else
+                    effRelAngle = effectiveAbsAngle - thisArm.members(iPoint - 1).getAbsAngle();
+                end
+
+                % Lengths
+                effTotalLength = hypot(dx, dy);
+                effDiffLength = effTotalLength - thisArm.members(iPoint).getInitLength();
+
+                switch thisArm.members(iPoint).getJointType()
+                    case "R"
+                        thisArm.members(iPoint).setRelAngle(effRelAngle);
+                    case "P"
+                        thisArm.members(iPoint).setDiffLength(effDiffLength);
+                end
+
+                % Update other values
+                thisArm.update();
+            end
         end
     end
 
