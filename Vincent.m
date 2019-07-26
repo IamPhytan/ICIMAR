@@ -35,7 +35,7 @@ classdef Vincent < handle
             % Condition initiale
             div = 50;
 
-            relAngles = deg2rad(manipulator.getMemberValues("relangle"));
+            relAngles = (deg2rad(manipulator.getMemberValues("relangle")))'';
 
             while div > 1
 
@@ -71,7 +71,8 @@ classdef Vincent < handle
                 % Limiteur de vitesses
                 xyThetaDot=xyThetaRequest-currentPos;
                 div=max(abs(xyThetaDot)./xyThetaDotMax);
-                xyThetaDot = xyThetaDot ./ (div.^(div > 1));
+                xyThetaDot = xyThetaDot / (div^(div > 1));
+                size(xyThetaDot);
 
                 % Calculs du prochain état par fonction de planification avec projection dans le noyeau
                 relAngles = Planner(relAngles, J, obstacles, xyThetaDot);
@@ -82,7 +83,7 @@ classdef Vincent < handle
                 newAbsAngles = cumsum(relAngles);
 
                 xyPins = ones(1, n);
-                xyPins = [arm.getX(); arm.getY()] * xyPins;
+                xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
                 for iMember=2:n
                     xyPins(:, num) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
                                         memberLengths(iMember) * sin(newAbsAngles(iMember))];
@@ -97,10 +98,6 @@ classdef Vincent < handle
         end
     end
 
-
-
-
-
     methods
         function reachTargets(thisVincent, reachingArm)
             % reachTargets  Reach predefined targets
@@ -108,7 +105,7 @@ classdef Vincent < handle
 
             % Constantes
             architecture = (reachingArm.getMemberValues("architecture"))';
-            maximalEndSpeeds = reachingArm.getMaxEndSpeeds();
+            maximalEndSpeeds = (reachingArm.getMaxEndSpeeds())';
             plannerHandle = reachingArm.getPlannerFunc();
 
             % Get target list
