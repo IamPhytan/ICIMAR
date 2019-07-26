@@ -16,6 +16,8 @@ obstaclesConfig = Context.importConfig('obstacles.txt');
 % Handlize planner function
 plannerHandle = Context.handlizePlannerFilename(plannerFileName);
 
+fprintf('Importation completee des donnees de configuration\nCreation du bras\n')
+
 
 % ARCHITECTURE
 

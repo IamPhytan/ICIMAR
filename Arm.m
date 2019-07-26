@@ -114,6 +114,7 @@ classdef Arm < handle
             thisArm.members = Member.empty;
             thisArm.lastMember = false;
             thisArm.totalLength = 0;
+            max_speeds(3) = deg2rad(max_speeds(3));
             thisArm.maxEndSpeeds = max_speeds;
             thisArm.plannerFunc = planner_func;
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
