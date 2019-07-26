@@ -11,7 +11,7 @@ Entez les vitesses cartésiennes maximales de l'organe terminal, après la ligne
 Utilisez la syntaxe suivante :
 <vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degrés>
 ++++++++++++++++++++++++++++++++
-0.05 0.05 5
+0.5 0.5 180
 
 ==============================================
 Entrez vos paramètres à partir de la ligne 26, après la ligne de '*'
@@ -23,9 +23,9 @@ Par exemple, pour une cible au point (4, 7) à atteindre avec un angle de 35 deg
 4 7 35
 
 ******************************************
-6 43 198
--18 -37 203
-29 70 183
-63 70 219
--45 76 42
--1 35 330
+20 20 45
+32 -26 287
+-69 -33 333
+-3 52 125
+71 25 112
+74 -77 63
