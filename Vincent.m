@@ -135,6 +135,8 @@ classdef Vincent < handle
                 % Requête
                 request = targetsList(:, iRequest);
 
+                reachingArm.setCurrentTarget(request(1:2));
+
                 fprintf('Cible a atteindre : \n===============\n\nx: %f, y: %f, theta: %f%c\n\n', request(1), request(2), rad2deg(request(3)), char(0176))
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);

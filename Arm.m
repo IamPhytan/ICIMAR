@@ -16,6 +16,7 @@ classdef Arm < handle
     %    maxEndSpeeds      - Maximal end effector speeds
     %    plannerFunc       - Planner function handle
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
+    %    currentTarget     - Current target of the arm
     %
     % Arm Target Properties:
     %    targets           - Array of arm targets
@@ -40,6 +41,8 @@ classdef Arm < handle
     %    getMaxEndSpeeds      - Get max end effector speeds
     %    setPlannerFunc       - Set planner function handle
     %    getPlannerFunc       - Get planner function handle
+    %    setCurrentTarget     - Set the current target of the arm
+    %    getCurrentTarget     - Get the current target of the arm
     %
     % Arm Target Setter and Getters:
     %    setTargets           - Set targets
@@ -87,6 +90,7 @@ classdef Arm < handle
         targets;
         obstacles;
         evolutiveAxis;
+        currentTarget;
     end
 
     properties (Constant)
@@ -120,6 +124,7 @@ classdef Arm < handle
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
             thisArm.evolutiveAxis = change_axis;
+            thisArm.currentTarget = struct('x', 0, 'y', 0, 'exists', false);
         end
     end
 
@@ -234,6 +239,19 @@ classdef Arm < handle
             %   Return the value of obstacles
             out = thisArm.obstacles;
         end
+
+        function setCurrentTarget(thisArm, value)
+            % setCurrentTarget  Set the current target of the arm
+            %   Set currentTarget with a value
+            thisArm.currentTarget.exists = true;
+            thisArm.currentTarget.x = value(1);
+            thisArm.currentTarget.y = value(2);
+        end
+        function out = getCurrentTarget(thisArm)
+            % getCurrentTarget  Get the current target of the arm
+            %   Return the value of currentTarget
+            out = [thisArm.currentTarget.x, thisArm.currentTarget.y];
+        end
     end
 
     methods
@@ -338,13 +356,13 @@ classdef Arm < handle
                 thisArm.createFigureAndAxes();
             end
 
-            % TODO: RENDER TARGET WITH COLORS('pink')
-
             numStableGraphics = length(thisArm.obstacles) + 2;
 
             if ~(length(thisArm.renderAxes.Children) == numStableGraphics)
                 delete(thisArm.renderAxes.Children(1:length(thisArm.renderAxes.Children)-numStableGraphics))
             end
+
+            thisArm.renderTarget();
 
             % Plot members
             for ii=1:length(thisArm.members)
@@ -570,6 +588,17 @@ classdef Arm < handle
                 end
                 thisArm.drawCircle(thisArm.renderAxes, thisArm.members(memberIndex).getX(), thisArm.members(memberIndex).getY(), taille, col, 'joint');
             end
+        end
+
+        function renderTarget(thisArm)
+            % renderTarget  Plot the target in a figure
+
+            col = thisArm.colors('pink');
+
+            currTarget = thisArm.getCurrentTarget();
+
+            line(thisArm.renderAxes, [currTarget(1) - 1, currTarget(1) + 1], [currTarget(2), currTarget(2)], 'Color', col)
+            line(thisArm.renderAxes, [currTarget(1), currTarget(1)], [currTarget(2) - 1, currTarget(2) + 1], 'Color', col)
         end
 
         function drawCircle(~, drawingAxes, centerX, centerY, diameter, colour, circleType)
