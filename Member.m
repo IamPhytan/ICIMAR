@@ -56,9 +56,9 @@ classdef Member < handle
         parentMember   = false;
     end
 
-    properties (constant)
+    properties (Constant)
         colors = containers.Map({'yellow', 'blue', 'turquoise', 'green', 'pink', 'red'}, ...
-         [[255, 255, 20] / 255, [1, 101, 252] / 255, [28, 247, 253] / 255, [8, 255, 8] / 255, [255, 2, 141] / 255, [229, 0, 0] / 255]);
+         {[255, 255, 20] / 255, [1, 101, 252] / 255, [28, 247, 253] / 255, [8, 255, 8] / 255, [255, 2, 141] / 255, [229, 0, 0] / 255});
     end
 
     % Constructor
@@ -235,16 +235,3 @@ classdef Member < handle
     end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
