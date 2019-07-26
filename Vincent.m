@@ -85,7 +85,7 @@ classdef Vincent < handle
                 xyPins = ones(1, n);
                 xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
                 for iMember=2:n
-                    xyPins(:, num) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
+                    xyPins(:, iMember) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
                                         memberLengths(iMember) * sin(newAbsAngles(iMember))];
                 end
 

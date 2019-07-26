@@ -544,7 +544,7 @@ classdef Arm < handle
                 case "r"
                     col = 'y';
                 case "p"
-                    col = 'g';
+                    col = 'm';
                 otherwise
                     ME = MException('MATLAB:wrongData', ...
                     'Le type de joint %s défini pour le membre est incorrect.', jointKind);
