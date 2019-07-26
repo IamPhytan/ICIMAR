@@ -26,6 +26,8 @@ classdef Arm < handle
     %
     %
     % Arm Setters and Getters:
+    %    getX                 - Get X coordinate of the base of the arm
+    %    getY                 - Get Y coordinate of the base of the arm
     %    setTotalLength       - Set total length of the arm
     %    getTotalLength       - Get total length of the arm
     %    setMembers           - Set members of the arm
@@ -117,6 +119,17 @@ classdef Arm < handle
 
     % Getters and setters
     methods
+        function out = getX(thisArm)
+            % getX  Get the X coordinate of the base of the arm
+            %   Return the value of x
+            out = thisArm.x;
+        end
+        function out = getY(thisArm)
+            % getY  Get the Y coordinate of the base of the arm
+            %   Return the value of y
+            out = thisArm.y;
+        end
+
         function setTotalLength(thisArm, value)
             % setTotalLength  Set the total length of the arm
             %   Set totalLength with a value
