@@ -13,42 +13,19 @@ classdef Vincent < handle
     % Méthodes de Vincent:
     %    robotGenerique       - Calcule les valeurs d'angle et de x/y pour déplacer le robot
 
-
-    properties (SetAccess = private, GetAccess = public)
-        thetaOutMemory;
-    end
-
-    % Getters and setters
-    methods
-        function setThetaOutMemory(thisVincent, value)
-            % setThetaOutMemory  Set stored output theta of Vincent
-            %   Set thetaOutMemory with a value
-            thisVincent.thetaOutMemory = value;
-        end
-        function out = getThetaOutMemory(thisVincent)
-            % getThetaOutMemory  Get stored output theta of Vincent
-            %   Return the value of thetaOutMemory
-            out = thisVincent.thetaOutMemory;
-        end
-    end
-
     % Robot Generique
     methods (Access = private)
-        function xyPins = robotGenerique(thisVincent, manipulator, architecture, initialStates, xyThetaDotMax,xyThetaRequest,Planner,obstacles)
+        function xyPins = robotGenerique(~, manipulator, architecture, xyThetaRequest, xyThetaDotMax, obstacles, Planner)
             % robotGenerique  Calcule les valeurs d'angle et de x/y pour déplacer le robot
-            %   Prend l'architecture, les angles, les longueurs de membres, les vitesses maximales, les cibles, le planificateur et les obstacles
+            %   Prend l'architecture, les cibles, les vitesses maximales, les obstacles et le planificateur.
             %
-            % :param thisVincent: cette instance de Vincent
             % :param manipulator: bras à bouger
             % :param architecture: architecture du robot (char array)
-            % :param initialStates: angles relatifs initiaux du robot (array)
+            % :param xyThetaRequest: cible du robot (struct array)
             % :param xyThetaDotMax: vitesses maximales de l'organe terminal
-            % :param xyThetaRequest: cibles du robot (struct array)
-            % :param Planner: fonctions de planification à implémenter dans le cadre du cours Éléments de Robotique GMC-3351 / GMC-7046
             % :param obstacles: obstacles sur le parcours du robot
-            % :returns thetaOut: final angles
+            % :param Planner: fonctions de planification à implémenter dans le cadre du cours Éléments de Robotique GMC-3351 / GMC-7046
             % :returns xyPins: joint coordinates
-            % :returns Done: flag to indicate that the point was reached
 
 
             % CONSTANTES LIÉES À L'ARCHITECTURE
@@ -57,9 +34,8 @@ classdef Vincent < handle
 
             % Condition initiale
             div = 50;
-            phi = manipulator.getMemberValues("radabsangle");
 
-            angles = manipulator.getMemberValues("radrelangle");
+            relAngles = deg2rad(manipulator.getMemberValues("relangle"));
 
             while div > 1
 
@@ -70,8 +46,8 @@ classdef Vincent < handle
                 x = manipulator.getMemberValues("endx");
                 y = manipulator.getMemberValues("endy");
 
-                % TODO: Unpseudocodize this line
-                current = [eFFector'; manipulator.members(end).radabsangle];
+                absoluteAngles = deg2rad(manipulator.getMemberValues("absangle"));
+                currentPos = [(manipulator.getEndEffector())'; absoluteAngles(end)];
 
                 % Vitesses
                 xdot = zeros(1, n);
@@ -93,31 +69,30 @@ classdef Vincent < handle
                 J=[xdot; ydot; thetadot];
 
                 % Limiteur de vitesses
-                xyThetaDot=xyThetaRequest-current;
+                xyThetaDot=xyThetaRequest-currentPos;
                 div=max(abs(xyThetaDot)./xyThetaDotMax);
                 xyThetaDot = xyThetaDot / (div^(div > 1));
 
-                % Calculs prochain pas de temps et fonction de planification avec
-                % projection dans le noyeau
-                angles = Planner(angles, J, obstacles, xyThetaDot);
+                % Calculs du prochain état par fonction de planification avec projection dans le noyeau
+                relAngles = Planner(relAngles, J, obstacles, xyThetaDot);
 
 
-                % TODO: Unpseudocodize this part
-                % FIXME: Broke it
-                lengths = manipulator.getLengths
+                % Convert angles in XY Pins
+                memberLengths = manipulator.getMemberValues("totalLength");
+                newAbsAngles = cumsum(relAngles);
 
-                xyPins = zeros(1, n);
+                xyPins = ones(1, n);
                 xyPins = [arm.getX(); arm.getY()] * xyPins;
-                for num in 2:range(n):
-                    xyPins(:, num) = [xyPins(1, num-1) + length(num) * cos(angles(num)); xyPins(1, num-1) + length(num) * cos(angles(num))];
+                for iMember=2:n
+                    xyPins(:, num) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
+                                        memberLengths(iMember) * sin(newAbsAngles(iMember))];
+                end
 
+                xValues = cumsum(xyPins(1, :));
+                yValues = cumsum(xyPins(2, :));
 
-                return xvPins into arm
-
-                % TODO: Set Values inside arm
-                % TODO: Set Angles == > xyPins
+                manipulator.setParamsFromXandY(xValues, yValues);
             end
-
             manipulator.render()
         end
     end
