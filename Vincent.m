@@ -39,8 +39,6 @@ classdef Vincent < handle
 
             while div > 1
 
-                manipulator.render();
-
                 % SÉRIES DE DONNÉES
                 % Position
                 x = manipulator.getMemberValues("endx");
@@ -77,7 +75,6 @@ classdef Vincent < handle
                 % Calculs du prochain état par fonction de planification avec projection dans le noyeau
                 relAngles = Planner(relAngles, J, obstacles, xyThetaDot);
 
-
                 % Convert angles in XY Pins
                 memberLengths = manipulator.getMemberValues("totalLength");
                 newAbsAngles = cumsum(relAngles);
@@ -93,8 +90,11 @@ classdef Vincent < handle
                 yValues = cumsum(xyPins(2, :));
 
                 manipulator.setParamsFromXandY(xValues, yValues);
+
+                % Show result
+                manipulator.render();
+
             end
-            manipulator.render()
         end
     end
 
@@ -126,8 +126,13 @@ classdef Vincent < handle
                 obstaclesList(:, iObstacle) = [obstacle.x ; obstacle.y; obstacle.radius];
             end
 
+            % Show arm
+            reachingArm.render();
 
             for iRequest=1:nTargets
+
+                % TODO: SET MAIN TARGET
+
                 % Requête
                 request = targetsList(:, iRequest);
 

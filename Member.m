@@ -56,6 +56,10 @@ classdef Member < handle
         parentMember   = false;
     end
 
+    properties (constant)
+        colors = containers.Map({'yellow', 'blue', 'turquoise', 'green', 'pink', 'red'}, ...
+         [[255, 255, 20] / 255, [1, 101, 252] / 255, [28, 247, 253] / 255, [8, 255, 8] / 255, [255, 2, 141] / 255, [229, 0, 0] / 255]);
+    end
 
     % Constructor
     methods
@@ -203,7 +207,7 @@ classdef Member < handle
             xs = [x_min, x_max, x_max, x_min];
             ys = [y_min, y_min, y_max, y_max];
 
-            p = patch(ax, xs, ys, 'w', 'EdgeColor', 'b');
+            p = patch(ax, xs, ys, 'w', 'EdgeColor', this.colors('blue'));
 
             % ROTATION
             direction = [0, 0, 1]; % En z, vu le plan

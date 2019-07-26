@@ -89,6 +89,11 @@ classdef Arm < handle
         evolutiveAxis;
     end
 
+    properties (constant)
+        colors = containers.Map({'yellow', 'blue', 'turquoise', 'green', 'pink', 'red'}, ...
+         [[255, 255, 20] / 255, [1, 101, 252] / 255, [28, 247, 253] / 255, [8, 255, 8] / 255, [255, 2, 141] / 255, [229, 0, 0] / 255]);
+    end
+
     properties (Access = private)
         totalLength
     end
@@ -318,7 +323,7 @@ classdef Arm < handle
 
             % Render Obstacles
             for iObstacle=1:length(thisArm.obstacles)
-                thisArm.drawCircle(ax, thisArm.obstacles(iObstacle).x, thisArm.obstacles(iObstacle).y, 2 * thisArm.obstacles(iObstacle).radius, 'r', 'obstacle');
+                thisArm.drawCircle(ax, thisArm.obstacles(iObstacle).x, thisArm.obstacles(iObstacle).y, 2 * thisArm.obstacles(iObstacle).radius, thisArm.colors('red'), 'obstacle');
             end
 
             thisArm.setAxes(ax);
@@ -331,6 +336,8 @@ classdef Arm < handle
             if isempty(get(groot,'CurrentFigure')) || isempty(thisArm.renderAxes)
                 thisArm.createFigureAndAxes();
             end
+
+            % TODO: RENDER TARGET WITH COLORS('pink')
 
             numStableGraphics = length(thisArm.obstacles) + 2;
 
@@ -351,7 +358,7 @@ classdef Arm < handle
             thisArm.renderJoints('P');
 
             eEffector = thisArm.getEndEffector();
-            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), 'g', 'joint');
+            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('green'), 'joint');
 
             if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
                 thisArm.largeAxis = 1;
@@ -542,9 +549,9 @@ classdef Arm < handle
 
             switch lower(jointKind)
                 case "r"
-                    col = 'y';
+                    col = thisArm.colors('turquoise');
                 case "p"
-                    col = 'm';
+                    col = thisArm.colors('yellow');
                 otherwise
                     ME = MException('MATLAB:wrongData', ...
                     'Le type de joint %s défini pour le membre est incorrect.', jointKind);
