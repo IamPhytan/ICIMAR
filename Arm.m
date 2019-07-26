@@ -243,9 +243,12 @@ classdef Arm < handle
             for ii=1:length(thisArm.members)
                 if logical(thisArm.members(ii).getParent())
                     % Prismatics have a relative angle of 0
-                    if thisArm.members(ii).getJointType() == 'P'
-                        thisArm.members(ii).setRelAngle(0);
-                        thisArm.members(ii).setWidth(thisArm.members(ii - 1).getWidth());
+                    % if thisArm.members(ii).getJointType() == 'P'
+                    %     thisArm.members(ii).setRelAngle(0);
+                    %     thisArm.members(ii).setWidth(thisArm.members(ii - 1).getWidth());
+                    % end
+                    if thisArm.members(ii).getJointType() == 'R'
+                        thisArm.members(ii).setDiffLength(0);
                     end
 
                     % Ensure that the absolute angles are set according to parent members
