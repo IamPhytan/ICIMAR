@@ -62,26 +62,27 @@ arm.render();
 vinc = Vincent;
 vinc.reachTargets(arm);
 
-arm.moveMember(12, 180);
-arm.moveMember(13, 90);
-arm.moveMember(6, 90);
-arm.moveMember(3, 5);
-arm.moveMember(8, -50);
-arm.moveMember(5, -2);
-arm.moveMember(12, -75);
-arm.moveMember(9, 135);
-arm.moveMember(5, 6);
-arm.moveMember(8, 270);
-arm.moveMember(12, 270);
-arm.moveMember(4, 7);
-arm.moveMember(6, 60);
-arm.moveMember(10, 9);
-arm.moveMember(10, -6);
-arm.moveMember(9, 90);
-arm.moveMember(5, -2);
-arm.moveMember(11, 6);
-arm.moveMember(7, 5);
-arm.moveMember(8, 20);
+% FIXME: Remove moving members
+% arm.moveMember(12, 180);
+% arm.moveMember(13, 90);
+% arm.moveMember(6, 90);
+% arm.moveMember(3, 5);
+% arm.moveMember(8, -50);
+% arm.moveMember(5, -2);
+% arm.moveMember(12, -75);
+% arm.moveMember(9, 135);
+% arm.moveMember(5, 6);
+% arm.moveMember(8, 270);
+% arm.moveMember(12, 270);
+% arm.moveMember(4, 7);
+% arm.moveMember(6, 60);
+% arm.moveMember(10, 9);
+% arm.moveMember(10, -6);
+% arm.moveMember(9, 90);
+% arm.moveMember(5, -2);
+% arm.moveMember(11, 6);
+% arm.moveMember(7, 5);
+% arm.moveMember(8, 20);
 
 eEffector = arm.getEndEffector();
 
