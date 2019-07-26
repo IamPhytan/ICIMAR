@@ -15,7 +15,7 @@ classdef Vincent < handle
 
     % Robot Generique
     methods (Access = private)
-        function xyPins = robotGenerique(~, manipulator, architecture, xyThetaRequest, xyThetaDotMax, obstacles, Planner)
+        function robotGenerique(~, manipulator, architecture, xyThetaRequest, xyThetaDotMax, obstacles, Planner)
             % robotGenerique  Calcule les valeurs d'angle et de x/y pour déplacer le robot
             %   Prend l'architecture, les cibles, les vitesses maximales, les obstacles et le planificateur.
             %
@@ -131,14 +131,10 @@ classdef Vincent < handle
 
 
             for iRequest=1:nTargets
-                % Variables
-                initialStates = (reachingArm.getMemberValues("relangle"))';
-
+                % Requête
                 request = targetsList(:, iRequest);
 
-                xyCoords = robotGenerique();
-
-
+                robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
             end
 
 
