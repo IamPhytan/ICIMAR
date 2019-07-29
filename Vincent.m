@@ -130,8 +130,6 @@ classdef Vincent < handle
 
             for iRequest=1:nTargets
 
-                % TODO: SET MAIN TARGET
-
                 % Requête
                 request = targetsList(:, iRequest);
 

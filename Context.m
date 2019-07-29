@@ -54,11 +54,11 @@ classdef Context < handle
             %   The program will then prompt you to fulfill it with the data of the robot
             switch configFilename
                 case "architecture.txt"
-                    generateArchitectureConfig();
+                    Context().generateArchitectureConfig();
                 case "cibles.txt"
-                    generateTargetsConfig();
+                    Context().generateTargetsConfig();
                 case "obstacles.txt"
-                    generateObstaclesConfig();
+                    Context().generateObstaclesConfig();
             end
 
         end
