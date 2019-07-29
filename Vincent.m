@@ -33,6 +33,7 @@ classdef Vincent < handle
 
             % Condition initiale
             div = 50;
+            mvmt_idx = 0;
 
             relAngles = (deg2rad(manipulator.getMemberValues("relangle")))'';
 
@@ -93,6 +94,12 @@ classdef Vincent < handle
                 % Show result
                 manipulator.render();
 
+                mvmt_idx = mvmt_idx + 1;
+
+                if mvmt_idx == 500
+                    break
+                end
+
             end
         end
     end
@@ -135,11 +142,11 @@ classdef Vincent < handle
 
                 reachingArm.setCurrentTarget(request(1:2));
 
-                fprintf('Cible a atteindre : \n===============\n\nx: %f, y: %f, theta: %f%c\n\n', request(1), request(2), rad2deg(request(3)), char(0176))
+                fprintf('\n\nCible a atteindre : \n===============\nx: %f, y: %f, theta: %f%c\n', request(1), request(2), rad2deg(request(3)), char(0176))
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
 
-                disp('Cible trouvee !\n')
+                disp('Cible trouvee !')
             end
         end
     end
