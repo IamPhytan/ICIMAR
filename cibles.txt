@@ -17,7 +17,7 @@ Utilisez la syntaxe suivante :
 Entrez vos paramètres à partir de la ligne 26, après la ligne de '*'
 
 Utilisez la syntaxe suivante :
-<x> <y> <angle-en-degres>
+<x> <y> <angle-en-degrés>
 
 Par exemple, pour une cible au point (4, 7) à atteindre avec un angle de 35 degrés :
 4 7 35

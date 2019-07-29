@@ -6,10 +6,10 @@ Interface de calcul de cinématique pour les manipulateurs redondants
 
 ### Architecture
 
-Ajouter les membres du bras à tracer dans le [fichier de configuration de l'architecture](./architecture.txt), avec la syntaxe suivante :
+Ajoutez les membres du bras à tracer dans le [fichier de configuration de l'architecture](./architecture.txt), avec la syntaxe suivante :
 
 ```md
-<type-de-joint> <longueur> <largeur> <angle>
+<type-de-joint> <longueur-du-membre> <longueur-du-membre> <angle-en-degrés>
 ```
 
 Les types de joints sont représentés par une lettre indiquant les joints suivants:
@@ -26,4 +26,44 @@ par rapport au membre précédent et relié à celui-ci par un joint rotorique  
 R 5 2 60
 ```
 
-% TODO: Add DOCS
+### Cibles
+
+Ajoutez le nom du fichier de planification, les vitesses cartésiennes maximales de l'organe terminal et les cibles à atteindre par le bras dans le [fichier de configuration des cibles](./cibles.txt).
+
+La syntaxe suivante doit être utilisée pour donner les vitesses cartésiennes maximales :
+
+```md
+<vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degrés>
+```
+
+Par exemple, pour un organe terminal se déplaçant avec une vitese maximale de `2 m/s` en `x` et en `y` et avec une vitesse maximale de `5 °/s` :
+
+```md
+2 2 5
+```
+
+La syntaxe suivante doit être utilisée pour donner les cibles à atteindre par le bras :
+
+```md
+<coordonnée-en-x> <coordonnée-en-y> <angle-en-degrés>
+```
+
+Par exemple, pour une cible à atteidnre au point `(5, 3)` avec un angle d'approche de `30°` par rapport à l'axe des x :
+
+```md
+5 3 30
+```
+
+### Obstacles
+
+Ajoutez les membres du bras à tracer dans le [fichier de configuration des obstacles](./obstacles.txt), avec la syntaxe suivante :
+
+```md
+<coordonnée-en-x-du-centre> <coordonnée-en-y-du-centre> <rayon-de-l-obstacle>
+```
+
+Par exemple, pour un obstacle centré au point `(6, 2)` avec un rayon de 3 :
+
+```md
+6 2 3
+```
