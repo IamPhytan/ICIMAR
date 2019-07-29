@@ -27,5 +27,5 @@ Par exemple, pour une cible au point (4, 7) à atteindre avec un angle de 35 deg
 13 12 29
 16 -8 215
 -20 6 353
-21 1 80
+20 1 80
 13 -10 7

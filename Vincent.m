@@ -97,10 +97,16 @@ classdef Vincent < handle
                 mvmt_idx = mvmt_idx + 1;
 
                 if mvmt_idx == 500
+                    disp("Cible manquee !")
                     break
                 end
 
             end
+
+            if mvmt_idx < 500
+                disp("Cible atteinte !")
+            end
+
         end
     end
 
@@ -145,8 +151,6 @@ classdef Vincent < handle
                 fprintf('\n\nCible a atteindre : \n===============\nx: %f, y: %f, theta: %f%c\n', request(1), request(2), rad2deg(request(3)), char(0176))
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
-
-                disp('Cible trouvee !')
             end
         end
     end
