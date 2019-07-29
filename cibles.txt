@@ -7,7 +7,7 @@ PlannerRRRRRRR_1.m
 
 ==============================================
 
-Entez les vitesses cartésiennes maximales de l'organe terminal, après la ligne de '+'
+Entrez les vitesses cartésiennes maximales de l'organe terminal, après la ligne de '+'
 Utilisez la syntaxe suivante :
 <vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degrés>
 ++++++++++++++++++++++++++++++++

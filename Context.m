@@ -154,7 +154,6 @@ classdef Context < handle
         end
     end
 
-    % TODO: UPDATE CONFIG FILES
     % Create configuration files
     methods (Access=private)
         function generateArchitectureConfig(~)
@@ -202,13 +201,21 @@ classdef Context < handle
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "Nom du fichier de planification apres la ligne de '-' (Ex: Planner.m)" + newline;
             targetConfigFileContents = targetConfigFileContents + "--------------------------------" + newline;
+            targetConfigFileContents = targetConfigFileContents + "" + newline; % Ligne d'input
+            targetConfigFileContents = targetConfigFileContents + "" + newline;
+            targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
+            targetConfigFileContents = targetConfigFileContents + "" + newline;
+            targetConfigFileContents = targetConfigFileContents + "Entrez les vitesses cartesiennes maximales de l'organe terminal, apres la ligne de '+'" + newline;
+            targetConfigFileContents = targetConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
+            targetConfigFileContents = targetConfigFileContents + "<vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degres>" + newline;
+            targetConfigFileContents = targetConfigFileContents + "++++++++++++++++++++++++++++++++" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
-            targetConfigFileContents = targetConfigFileContents + "Entrez vos parametres a partir de la ligne 18, apres la ligne de '*'" + newline;
+            targetConfigFileContents = targetConfigFileContents + "Entrez vos parametres a partir de la ligne 26, apres la ligne de '*'" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
-            targetConfigFileContents = targetConfigFileContents + "<x> <y> <angle>" + newline;
+            targetConfigFileContents = targetConfigFileContents + "<x> <y> <angle-en-degres>" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "Par exemple, pour une cible au point (4, 7) a atteindre avec un angle de 35 degres :" + newline;
             targetConfigFileContents = targetConfigFileContents + "4 7 35" + newline;
@@ -241,7 +248,7 @@ classdef Context < handle
             obstacleConfigFileContents = obstacleConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "<x> <y> <rayon>" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "" + newline;
-            obstacleConfigFileContents = obstacleConfigFileContents + "Par exemple, pour un obstacle de rayon 3 centré au point (2, 4) :" + newline;
+            obstacleConfigFileContents = obstacleConfigFileContents + "Par exemple, pour un obstacle de rayon 3 centre au point (2, 4) :" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "2 4 3" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "******************************************" + newline;
