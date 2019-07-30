@@ -313,7 +313,7 @@ classdef Arm < handle
                 close(gcf);
             end
 
-            figure('NumberTitle', 'off', 'Name', 'ICDMAR');
+            figure('NumberTitle', 'off', 'Name', 'ICIMAR');
             ax = gca;
             hold(ax, 'on');
             grid(ax, 'on');
