@@ -35,6 +35,7 @@ classdef Vincent < handle
             div = 50;
             mvmt_idx = 0;
 
+            % TODO: Teleportation bug
             relAngles = (deg2rad(manipulator.getMemberValues("relangle")))'';
 
             while div > 1
@@ -151,6 +152,8 @@ classdef Vincent < handle
                 fprintf('\n\nCible a atteindre : \n===============\nx: %f, y: %f, theta: %f%c\n', request(1), request(2), rad2deg(request(3)), char(0176))
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
+
+                a = reachingArm.getMemberValues("relangle")
             end
         end
     end

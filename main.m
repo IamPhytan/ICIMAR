@@ -1,4 +1,7 @@
 
+% TODO: Call le main comme une fonction avec PlannerFuncName en args
+% TODO: VideoGen dans le bon branch
+
 changeAxis = false;
 
 % Import architecture configuration
