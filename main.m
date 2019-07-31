@@ -9,29 +9,41 @@ function main(nomDuPlanificateur)
 
     % TODO: VideoGen dans le bon branch
 
+    % Axes changeants, selon la préférence
     changeAxis = false;
+
+    % Mode bavard
+    verbose = false;
 
     % Import architecture configuration
     architectureConfig = Context.importConfig('architecture.txt');
 
-    disp('Architecture importee')
+    if verbose
+        disp('Architecture importee')
+    end
 
     % Import targets configuration
     targetsConfig = Context.importConfig('cibles.txt');
     maximalSpeeds = cell2mat(targetsConfig{2});
     targetsConfig = targetsConfig{1};
 
-    disp('Requetes importes')
+    if verbose
+        disp('Requetes importes')
+    end
 
     % Import obstacles configuration
     obstaclesConfig = Context.importConfig('obstacles.txt');
 
-    disp('Obstacles importes')
+    if verbose
+        disp('Obstacles importes')
+    end
 
     % Handlize planner function
     plannerHandle = Context.handlizePlannerFilename(nomDuPlanificateur);
 
-    fprintf('Importation completee des donnees de configuration\nCreation du bras\n')
+    if verbose
+        fprintf('Importation completee des donnees de configuration\nCreation du bras\n')
+    end
 
 
     % ARCHITECTURE
@@ -82,8 +94,9 @@ function main(nomDuPlanificateur)
     eEffector = arm.getEndEffector();
 
     % OUTPUT des valeurs
-    fprintf('\n\nCoordonnees de l''organe terminal\n===============\n\nx: %f, y: %f\n\n\n', eEffector(1), eEffector(2))
-
+    if verbose
+        fprintf('\n\nCoordonnees de l''organe terminal\n===============\n\nx: %f, y: %f\n\n\n', eEffector(1), eEffector(2))
+    end
 
 end
 
