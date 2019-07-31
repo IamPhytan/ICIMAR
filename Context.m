@@ -35,12 +35,11 @@ classdef Context < handle
         function plannerHandle = handlizePlannerFilename(plannerFileName)
             % handlizePlannerFilename  Creates a function handle from string "funcname.m"
             %   Feature implemented so that we can add function name in targets configuration files
-            if isfile([pwd filesep plannerFileName])
-                plannerHandle = eval(['@' plannerFileName(1:end-2)]);
+            if isfile([pwd filesep plannerFileName '.m'])
+                plannerHandle = eval(['@' plannerFileName]);
             else
-                cibleFilename = [pwd filesep 'cibles.txt'];
                 ME = MException('MATLAB:wrongFilename', ...
-                'La fonction de planification definie dans le fichier <a href="matlab: open(''%s'')">%s</a> est inexistante.', cibleFilename, cibleFilename);
+                'La fonction de planification ''%s'' est inexistante.', [plannerFileName '.m']);
                 throw(ME)
             end
         end
@@ -75,7 +74,7 @@ classdef Context < handle
                     numHeaderLines = 12;
                 case [pwd filesep 'cibles.txt']
                     strFormat = '%f %f %f\r\n';
-                    numHeaderLines = 25;
+                    numHeaderLines = 19;
                 case [pwd filesep 'obstacles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 11;
@@ -86,14 +85,12 @@ classdef Context < handle
             configContents = textscan(fileID, strFormat, 'HeaderLines', numHeaderLines);
             fclose(fileID);
 
-            % Récupération du Planner Filename
+            % Récupération des maximalSpeeds
             if configFilePath == string([pwd filesep 'cibles.txt'])
                 fid = fopen(configFilePath);
-                plannerFileName = textscan(fid,'%s',1,'delimiter','\n', 'HeaderLines',5);
-                frewind(fileID);
-                maximalSpeeds = textscan(fid,'%f %f %f',1,'delimiter','\n', 'HeaderLines',13);
+                maximalSpeeds = textscan(fid,'%f %f %f',1,'delimiter','\n', 'HeaderLines',7);
                 fclose(fid);
-                out = {configContents, plannerFileName, maximalSpeeds};
+                out = {configContents, maximalSpeeds};
             else
                 out = configContents;
             end
@@ -199,12 +196,6 @@ classdef Context < handle
             targetConfigFileContents = "Configuration des cibles a atteindre avec le manipulateur seriel" + newline;
             targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
-            targetConfigFileContents = targetConfigFileContents + "Nom du fichier de planification apres la ligne de '-' (Ex: Planner.m)" + newline;
-            targetConfigFileContents = targetConfigFileContents + "--------------------------------" + newline;
-            targetConfigFileContents = targetConfigFileContents + "" + newline; % Ligne d'input
-            targetConfigFileContents = targetConfigFileContents + "" + newline;
-            targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
-            targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "Entrez les vitesses cartesiennes maximales de l'organe terminal, apres la ligne de '+'" + newline;
             targetConfigFileContents = targetConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
             targetConfigFileContents = targetConfigFileContents + "<vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degres>" + newline;
@@ -212,7 +203,7 @@ classdef Context < handle
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
-            targetConfigFileContents = targetConfigFileContents + "Entrez vos parametres a partir de la ligne 26, apres la ligne de '*'" + newline;
+            targetConfigFileContents = targetConfigFileContents + "Entrez vos parametres a partir de la ligne 20, apres la ligne de '*'" + newline;
             targetConfigFileContents = targetConfigFileContents + "" + newline;
             targetConfigFileContents = targetConfigFileContents + "Utilisez la syntaxe suivante :" + newline;
             targetConfigFileContents = targetConfigFileContents + "<x> <y> <angle-en-degres>" + newline;
