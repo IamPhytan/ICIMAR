@@ -597,8 +597,8 @@ classdef Arm < handle
 
             currTarget = thisArm.getCurrentTarget();
 
-            line(thisArm.renderAxes, [currTarget(1) - 1, currTarget(1) + 1], [currTarget(2), currTarget(2)], 'Color', col)
-            line(thisArm.renderAxes, [currTarget(1), currTarget(1)], [currTarget(2) - 1, currTarget(2) + 1], 'Color', col)
+            line(thisArm.renderAxes, [currTarget(1) - 1, currTarget(1) + 1], [currTarget(2), currTarget(2)], 'Color', col, 'LineWidth', 2)
+            line(thisArm.renderAxes, [currTarget(1), currTarget(1)], [currTarget(2) - 1, currTarget(2) + 1], 'Color', col, 'LineWidth', 2)
         end
 
         function drawCircle(~, drawingAxes, centerX, centerY, diameter, colour, circleType)
