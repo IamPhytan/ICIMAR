@@ -35,8 +35,8 @@ classdef Vincent < handle
             div = 50;
             mvmt_idx = 0;
 
-            % TODO: Teleportation bug
-            relAngles = (deg2rad(manipulator.getMemberValues("relangle")))'';
+            % TODO: Chaotic
+            relAngles = (deg2rad(manipulator.getMemberValues("relangle")))';
 
             while div > 1
 
@@ -73,17 +73,17 @@ classdef Vincent < handle
                 xyThetaDot = xyThetaDot / (div^(div > 1));
                 size(xyThetaDot);
 
-                % Calculs du prochain état par fonction de planification avec projection dans le noyeau
+                % Calculs du prochain état par fonction de planification avec projection dans le noyau
                 relAngles = Planner(relAngles, J, obstacles, xyThetaDot);
 
                 % Convert angles in XY Pins
                 memberLengths = manipulator.getMemberValues("totalLength");
                 newAbsAngles = cumsum(relAngles);
 
-                xyPins = ones(1, n);
+                xyPins = ones(1, n + 1);
                 xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
-                for iMember=2:n
-                    xyPins(:, iMember) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
+                for iMember=1:n
+                    xyPins(:, iMember + 1) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
                                         memberLengths(iMember) * sin(newAbsAngles(iMember))];
                 end
 
@@ -153,7 +153,6 @@ classdef Vincent < handle
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
 
-                a = reachingArm.getMemberValues("relangle")
             end
         end
     end

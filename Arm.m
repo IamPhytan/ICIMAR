@@ -482,7 +482,8 @@ classdef Arm < handle
                 dy = ys(iPoint + 1) - ys(iPoint);
 
                 % Angles
-                effectiveAbsAngle = rad2deg(atan2(dy, dx));
+                effectiveAbsAngle = atan2d(dy, dx);
+                % effectiveAbsAngle = mod(effectiveAbsAngle + 360, 720) - 360;
                 if iPoint == 1
                     effRelAngle = effectiveAbsAngle;
                 else
