@@ -17,6 +17,7 @@ classdef Arm < handle
     %    plannerFunc       - Planner function handle
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %    currentTarget     - Current target of the arm
+    %    information       - Two lines of information to display in the title of the figure
     %
     % Arm Target Properties:
     %    targets           - Array of arm targets
@@ -43,6 +44,8 @@ classdef Arm < handle
     %    getPlannerFunc       - Get planner function handle
     %    setCurrentTarget     - Set the current target of the arm
     %    getCurrentTarget     - Get the current target of the arm
+    %    setInformation       - Set the information displayed in the title of the figure
+    %    getInformation       - Get the information displayed in the title of the figure
     %
     % Arm Target Setter and Getters:
     %    setTargets           - Set targets
@@ -63,6 +66,7 @@ classdef Arm < handle
     %    render               - Plot the arm in a figure
     %    getMemberValues      - Return the values of valueType for all arm members
     %    checkJointType       - Checks that the feedded joint kind is rotoric or prismatic
+    %    displayInformation   - Show information in title of the figure
     %
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
@@ -91,6 +95,7 @@ classdef Arm < handle
         obstacles;
         evolutiveAxis;
         currentTarget;
+        information = {"", ""};
     end
 
     properties (Constant)
@@ -252,6 +257,17 @@ classdef Arm < handle
             %   Return the value of currentTarget
             out = [thisArm.currentTarget.x, thisArm.currentTarget.y];
         end
+
+        function setInformation(thisArm, value)
+            % setInformation  Set the information displayed in the title of the figure
+            %   Set information with a value
+            thisArm.information = value;
+        end
+        function out = getInformation(thisArm)
+            % getInformation  Get the information displayed in the title of the figure
+            %   Return the value of information
+            out = thisArm.information;
+        end
     end
 
     methods
@@ -344,6 +360,8 @@ classdef Arm < handle
             for iObstacle=1:length(thisArm.obstacles)
                 thisArm.drawCircle(ax, thisArm.obstacles(iObstacle).x, thisArm.obstacles(iObstacle).y, 2 * thisArm.obstacles(iObstacle).radius, thisArm.colors('red'), 'obstacle');
             end
+
+            title(ax, thisArm.getInformation())
 
             thisArm.setAxes(ax);
         end
@@ -504,6 +522,16 @@ classdef Arm < handle
                 % Update other values
                 thisArm.update();
             end
+        end
+
+        function displayInformation(thisArm, informationString, lineNumber)
+            % displayInformation  Show information in title of the figure
+            %   Replaces text in lineNumber with a string
+            currentInfo = thisArm.getInformation();
+            newInfo = currentInfo;
+            newInfo{lineNumber} = informationString;
+            thisArm.setInformation(newInfo);
+            title(thisArm.renderAxes, thisArm.getInformation);
         end
     end
 
