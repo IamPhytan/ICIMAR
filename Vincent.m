@@ -15,11 +15,12 @@ classdef Vincent < handle
 
     % Robot Generique
     methods (Access = private)
-        function robotGenerique(~, manipulator, architecture, xyThetaRequest, xyThetaDotMax, obstacles, Planner)
+        function robotGenerique(~, manipulator, targetIdx, architecture, xyThetaRequest, xyThetaDotMax, obstacles, Planner)
             % robotGenerique  Calcule les valeurs d'angle et de x/y pour déplacer le robot
             %   Prend l'architecture, les cibles, les vitesses maximales, les obstacles et le planificateur.
             %
             % :param manipulator: bras à bouger
+            % :param targetIdx: indice de la cible
             % :param architecture: architecture du robot (char array)
             % :param xyThetaRequest: cible du robot (struct array)
             % :param xyThetaDotMax: vitesses maximales de l'organe terminal
@@ -99,8 +100,9 @@ classdef Vincent < handle
 
                 if mvmt_idx == 500
                     % Affiche que la cible fut manquée
-                    disp("Cible manquee !")
-                    manipulator.displayInformation(2, "Cible manquee !")
+                    missedTargetStatus = sprintf("Cible %d manquee !", targetIdx);
+                    disp(missedTargetStatus)
+                    manipulator.displayInformation(1, missedTargetStatus)
                     break
                 end
 
@@ -108,8 +110,9 @@ classdef Vincent < handle
 
             if mvmt_idx < 500
                 % Affiche que la cible fut atteinte en moins de 500 coups
-                disp("Cible atteinte !")
-                manipulator.displayInformation(2, "Cible atteinte !")
+                reachedTargetStatus = sprintf("Cible %d atteinte !", targetIdx);
+                disp(reachedTargetStatus)
+                manipulator.displayInformation(1, reachedTargetStatus)
             end
 
         end
@@ -154,13 +157,13 @@ classdef Vincent < handle
                 reachingArm.setCurrentTarget(request(1:2));
 
                 % Print la cible dans la console
-                fprintf('\n\nCible a atteindre : \n===============\nx: %f, y: %f, theta: %f%c\n', request(1), request(2), rad2deg(request(3)), char(0176))
+                fprintf('\n\nCible %d : \n===============\nx: %f, y: %f, theta: %f%c\n', iRequest, request(1), request(2), rad2deg(request(3)), char(0176))
 
                 % Affiche la cible dans le titre de la figure
-                targetInfo = sprintf("Cible a atteindre : x: %g, y: %g, theta: %g%c", request(1) , request(2), rad2deg(request(3)), char(0176));
-                reachingArm.displayInformation(1, targetInfo)
+                targetInfo = sprintf("Cible %d : x: %g, y: %g, theta: %g%c", iRequest, request(1) , request(2), rad2deg(request(3)), char(0176));
+                reachingArm.displayInformation(2, targetInfo)
 
-                thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
+                thisVincent.robotGenerique(reachingArm, iRequest, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
 
             end
         end
