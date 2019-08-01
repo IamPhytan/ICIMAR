@@ -10,10 +10,11 @@ function main(nomDuPlanificateur)
     % TODO: VideoGen dans le bon branch
 
     % Axes changeants, selon la préférence
+    % Vincent = true / Clément = false
     changeAxis = false;
 
     % Mode bavard
-    verbose = false;
+    verbose = true;
 
     % Import architecture configuration
     architectureConfig = Context.importConfig('architecture.txt');

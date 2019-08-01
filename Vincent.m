@@ -98,14 +98,18 @@ classdef Vincent < handle
                 mvmt_idx = mvmt_idx + 1;
 
                 if mvmt_idx == 500
+                    % Affiche que la cible fut manquée
                     disp("Cible manquee !")
+                    manipulator.displayInformation(2, "Cible manquee !")
                     break
                 end
 
             end
 
             if mvmt_idx < 500
+                % Affiche que la cible fut atteinte en moins de 500 coups
                 disp("Cible atteinte !")
+                manipulator.displayInformation(2, "Cible atteinte !")
             end
 
         end
@@ -149,7 +153,12 @@ classdef Vincent < handle
 
                 reachingArm.setCurrentTarget(request(1:2));
 
+                % Print la cible dans la console
                 fprintf('\n\nCible a atteindre : \n===============\nx: %f, y: %f, theta: %f%c\n', request(1), request(2), rad2deg(request(3)), char(0176))
+
+                % Affiche la cible dans le titre de la figure
+                targetInfo = sprintf("Cible a atteindre : x: %g, y: %g, theta: %g%c", request(1) , request(2), rad2deg(request(3)), char(0176));
+                reachingArm.displayInformation(1, targetInfo)
 
                 thisVincent.robotGenerique(reachingArm, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
 
