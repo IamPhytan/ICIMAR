@@ -397,6 +397,7 @@ classdef Arm < handle
             eEffector = thisArm.getEndEffector();
             thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('green'), 'joint');
 
+            % Change axis depending on the preferences
             if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
                 thisArm.largeAxis = 1;
                 xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
@@ -524,7 +525,7 @@ classdef Arm < handle
             end
         end
 
-        function displayInformation(thisArm, informationString, lineNumber)
+        function displayInformation(thisArm, lineNumber, informationString)
             % displayInformation  Show information in title of the figure
             %   Replaces text in lineNumber with a string
             currentInfo = thisArm.getInformation();

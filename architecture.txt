@@ -10,10 +10,11 @@ par rapport au membre précédent et relié à celui-ci par un joint rotorique  
 R 5 2 60
 
 ******************************************
-R 5 1 10
-R 5 1 10
-R 5 1 10
-R 5 1 10
-R 5 1 10
-R 5 1 10
-R 5 1 10
+R 1 5 325
+R 3 4 10
+R 8 1 143
+R 6 1 270
+R 3 1 299
+R 2 4 184
+R 5 1 64
+
