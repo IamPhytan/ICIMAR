@@ -526,6 +526,7 @@ classdef Arm < handle
             end
         end
 
+        % TODO: Houston, is there a problem ?
         function setFromTotLenRelAng(thisArm, effLengthsArr, effRelAnglesArr)
             % setFromTotLenRelAng  Set members parameters from total lengths and relative angles arrays
             %   Convert total length and relative angle arrays to members params for Vincent's Code
