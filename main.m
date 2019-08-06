@@ -5,17 +5,20 @@ function main(nomDuPlanificateur)
     %
     % Code à exécuter
 
-    % Vérifie que le nomduPlanificateur est donné dans l'appel
-    narginchk(1, 1)
-
-    % TODO: VideoGen dans le bon branch
-
+    % PARAMETRES
     % Axes changeants, selon la préférence
     % Vincent = true / Clément = false
     changeAxis = false;
 
     % Mode bavard
     verbose = true;
+
+
+    % TODO: VideoGen dans le bon branch
+
+
+    % Vérifie que le nomduPlanificateur est donné dans l'appel
+    narginchk(1, 1)
 
     % Import architecture configuration
     architectureConfig = Context.importConfig('architecture.txt');
