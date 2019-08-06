@@ -19,7 +19,7 @@ classdef Context < handle
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file
             %   Checks if the config file is in the folder
-            configFilePath = [pwd filesep configFilename];
+            configFilePath = [pwd filesep 'config' filesep configFilename];
             if ~isfile(configFilePath)
                 Context().createConfigFile(configFilename);
             end
@@ -35,7 +35,7 @@ classdef Context < handle
         function plannerHandle = handlizePlannerFilename(plannerFileName)
             % handlizePlannerFilename  Creates a function handle from string "funcname.m"
             %   Feature implemented so that we can add function name in targets configuration files
-            if isfile([pwd filesep plannerFileName '.m'])
+            if isfile([pwd filesep 'config' filesep plannerFileName '.m'])
                 plannerHandle = eval(['@' plannerFileName]);
             else
                 ME = MException('MATLAB:wrongFilename', ...
@@ -69,13 +69,13 @@ classdef Context < handle
 
             % Get strFormat and numHeaderLines from configFilePath
             switch configFilePath
-                case [pwd filesep 'architecture.txt']
+                case [pwd filesep 'config' filesep 'architecture.txt']
                     strFormat = '%s %f %f %f\r\n';
                     numHeaderLines = 12;
-                case [pwd filesep 'cibles.txt']
+                case [pwd filesep 'config' filesep 'cibles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 19;
-                case [pwd filesep 'obstacles.txt']
+                case [pwd filesep 'config' filesep 'obstacles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 11;
             end
@@ -86,7 +86,7 @@ classdef Context < handle
             fclose(fileID);
 
             % Récupération des maximalSpeeds
-            if configFilePath == string([pwd filesep 'cibles.txt'])
+            if configFilePath == string([pwd filesep 'config' filesep 'cibles.txt'])
                 fid = fopen(configFilePath);
                 maximalSpeeds = textscan(fid,'%f %f %f',1,'delimiter','\n', 'HeaderLines',7);
                 fclose(fid);
@@ -111,7 +111,7 @@ classdef Context < handle
             % Verifie si toutes les colonnes ont le même nombre de valeurs
             num_colonnes = numel(configContents);
             switch configFilePath
-                case [pwd filesep 'architecture.txt']
+                case [pwd filesep 'config' filesep 'architecture.txt']
                     desiredNumColumns = 4;
                 otherwise
                     desiredNumColumns = 3;
@@ -136,11 +136,11 @@ classdef Context < handle
             if ~(range(num_elems) == 0)
                 [~, I] = min(num_elems);
                 switch configFilePath
-                    case [pwd filesep 'architecture.txt']
+                    case [pwd filesep 'config' filesep 'architecture.txt']
                         noms_colus = {"de type de joint", "de longueur", "de largeur", "d'angle"};
-                    case [pwd filesep 'cibles.txt']
+                    case [pwd filesep 'config' filesep 'cibles.txt']
                         noms_colus = {"de x", "de y", "d'angle"};
-                    case [pwd filesep 'obstacles.txt']
+                    case [pwd filesep 'config' filesep 'obstacles.txt']
                         noms_colus = {"de x", "de y", "de rayon"};
                 end
                 nom_colu = noms_colus{I};
@@ -159,7 +159,7 @@ classdef Context < handle
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            architectureConfigFilePath = [pwd filesep 'architecture.txt'];
+            architectureConfigFilePath = [pwd filesep 'config' filesep 'architecture.txt'];
 
             architectureConfigFileContents = "Configuration de l'architecture et des membres du manipulateur seriel" + newline;
             architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
@@ -191,7 +191,7 @@ classdef Context < handle
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            targetConfigFilePath = [pwd filesep 'cibles.txt'];
+            targetConfigFilePath = [pwd filesep 'config' filesep 'cibles.txt'];
 
             targetConfigFileContents = "Configuration des cibles a atteindre avec le manipulateur seriel" + newline;
             targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
@@ -230,7 +230,7 @@ classdef Context < handle
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            obstacleConfigFilePath = [pwd filesep 'obstacles.txt'];
+            obstacleConfigFilePath = [pwd filesep 'config' filesep 'obstacles.txt'];
 
             obstacleConfigFileContents = "Configuration des obstacles a eviter avec le manipulateur seriel" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "==============================================" + newline;
