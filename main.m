@@ -5,6 +5,7 @@ function main(nomDuPlanificateur)
     %
     % Code à exécuter
 
+    % Vérifie que le nomduPlanificateur est donné dans l'appel
     narginchk(1, 1)
 
     % TODO: VideoGen dans le bon branch
