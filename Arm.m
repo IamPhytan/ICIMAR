@@ -71,6 +71,7 @@ classdef Arm < handle
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
     %    setParamsFromXandY   - Set members parameters from x and y arrays
+    %    setFromTotLenRelAng  - Set members parameters from total lengths and relative angles arrays
     %
     % Arm Obstacles Methods:
     %    addObstacle          - Add new obstacle for the arm
@@ -518,6 +519,28 @@ classdef Arm < handle
                         thisArm.members(iPoint).setRelAngle(effRelAngle);
                     case "P"
                         thisArm.members(iPoint).setDiffLength(effDiffLength);
+                end
+
+                % Update other values
+                thisArm.update();
+            end
+        end
+
+        function setFromTotLenRelAng(thisArm, effLengthsArr, effRelAnglesArr)
+            % setFromTotLenRelAng  Set members parameters from total lengths and relative angles arrays
+            %   Convert total length and relative angle arrays to members params for Vincent's Code
+            for iMember=1:length(effLengthsArr)
+
+                % Values
+                effTotalLength = effLengthsArr(iMember);
+                effRelAngle = effRelAnglesArr(iMember);
+
+                switch thisArm.members(iMember).getJointType()
+                    case "R"
+                        thisArm.members(iMember).setRelAngle(effRelAngle);
+                    case "P"
+                        effDiffLength = effTotalLength - thisArm.members(iMember).getInitLength();
+                        thisArm.members(iMember).setDiffLength(effDiffLength);
                 end
 
                 % Update other values
