@@ -6,7 +6,7 @@ Interface de calcul de cinématique pour les manipulateurs redondants
 
 ### Architecture
 
-Ajoutez les membres du bras à tracer dans le [fichier de configuration de l'architecture](./architecture.txt), avec la syntaxe suivante:
+Ajoutez les membres du bras à tracer dans le [fichier de configuration de l'architecture](./config/architecture.txt), avec la syntaxe suivante:
 
 ```md
 <type-de-joint> <longueur-du-membre> <longueur-du-membre> <angle-en-degrés>
@@ -28,7 +28,7 @@ R 5 2 60
 
 ### Cibles
 
-Ajoutez le nom du fichier de planification, les vitesses cartésiennes maximales de l'organe terminal et les cibles à atteindre par le bras dans le [fichier de configuration des cibles](./cibles.txt).
+Ajoutez le nom du fichier de planification, les vitesses cartésiennes maximales de l'organe terminal et les cibles à atteindre par le bras dans le [fichier de configuration des cibles](./config/cibles.txt).
 
 La syntaxe suivante doit être utilisée pour donner les vitesses cartésiennes maximales:
 
@@ -56,7 +56,7 @@ Par exemple, pour une cible à atteidnre au point `(5, 3)` avec un angle d'appro
 
 ### Obstacles
 
-Ajoutez les membres du bras à tracer dans le [fichier de configuration des obstacles](./obstacles.txt), avec la syntaxe suivante:
+Ajoutez les membres du bras à tracer dans le [fichier de configuration des obstacles](./config/obstacles.txt), avec la syntaxe suivante:
 
 ```md
 <coordonnee-en-x-du-centre> <coordonnee-en-y-du-centre> <rayon-de-l-obstacle>
