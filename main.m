@@ -1,22 +1,33 @@
-function main(nomDuPlanificateur, nomDuDossierDeConfiguration)
+function main(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % main - Code principal d'ICIMAR
     %
-    % Syntaxe: main(nomDuPlanificateur, nomDuDossierDeConfiguration)
+    % Syntaxe: main(nomDuPlanificateur, nomDuDossierDeConfiguration, verbose, changeAxis)
     %
     % Code à exécuter
 
-    % PARAMETRES
-    % Axes changeants, selon la préférence
-    % Vincent = true / Clément = false
+    % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
+    narginchk(2, 4)
+
+    % PARAMETRES PAR DEFAUT
+    verbose = true;
     changeAxis = false;
 
-    % Mode bavard
-    verbose = true;
+    try
+        verbose = eval(varargin{1});
+        changeAxis = eval(varargin{2});
+    end
+
+    if (nargin < 3) || isempty(verbose)
+        % Mode bavard
+        verbose = true;
+    end
+    if (nargin < 4) || isempty(changeAxis)
+        % Axes changeants, selon la préférence
+        % Vincent = true / Clément = false
+        changeAxis = false;
+    end
 
     % TODO: VideoGen dans une nouvelle branch
-
-    % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
-    narginchk(2, 2)
 
     % Créé contexte
     roboticsContext = Context(nomDuDossierDeConfiguration);
