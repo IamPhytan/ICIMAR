@@ -100,8 +100,17 @@ classdef Arm < handle
     end
 
     properties (Constant)
-        colors = containers.Map({'yellow', 'blue', 'turquoise', 'green', 'pink', 'red'}, ...
-         {[255, 255, 20] / 255, [1, 101, 252] / 255, [28, 247, 253] / 255, [8, 255, 8] / 255, [255, 2, 141] / 255, [229, 0, 0] / 255});
+        colors = containers.Map({'yellow', 'blue', 'turquoise', 'green', 'pink', 'red', 'black', 'white'}, ...
+         { ...
+            [255, 255, 20] / 255, ...
+            [1, 101, 252] / 255, ...
+            [28, 247, 253] / 255, ...
+            [8, 255, 8] / 255, ...
+            [255, 2, 141] / 255, ...
+            [229, 0, 0] / 255, ...
+            [0, 0, 0], ...
+            [255, 255, 255] / 255 ...
+        });
     end
 
     properties (Access = private)
@@ -404,7 +413,7 @@ classdef Arm < handle
             thisArm.renderJoints('P');
 
             eEffector = thisArm.getEndEffector();
-            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('green'), 'joint');
+            thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('pink'), 'joint');
 
             % Change axis depending on the preferences
             % if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
@@ -629,9 +638,9 @@ classdef Arm < handle
 
             switch lower(jointKind)
                 case "r"
-                    col = thisArm.colors('turquoise');
+                    col = thisArm.colors('green');
                 case "p"
-                    col = thisArm.colors('yellow');
+                    col = thisArm.colors('white');
                 otherwise
                     ME = MException('MATLAB:wrongData', ...
                     'Le type de joint %s défini pour le membre est incorrect.', jointKind);
