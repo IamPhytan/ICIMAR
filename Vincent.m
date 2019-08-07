@@ -79,7 +79,7 @@ classdef Vincent < handle
 
                 % Calculs du prochain état par fonction de planification avec projection dans le noyau
                 variableData = jointsR .* relAngles + jointsP .* totLengths;
-                resData = Planner(variableData, J, obstacles, xyThetaDot);
+                resData = Planner(architecture, totLengths, relAngles, variableData, J, obstacles, xyThetaDot);
 
                 relAngles = jointsR .* resData + jointsP .* relAngles;
                 totLengths = jointsP .* resData + jointsR .* totLengths;
