@@ -3,7 +3,18 @@ classdef Context < handle
     % All the functions to use in the code
     %
     %
-    % Member Methods:
+    % Context Properties:
+    %    configFolderName  - Configuration foldername
+    %
+    %
+    %
+    % Context Setters and Getters:
+    %    setConfigFolderName  - Set the configuration folder name
+    %    getConfigFolderName  - Get the configuration folder name
+    %
+    %
+    %
+    % Context Methods:
     %    importConfig               - Decide whether the config file should be created or opened
     %    createConfigFile           - Generate a config file
     %    readConfig                 - Open the config file and return the contents
@@ -13,29 +24,62 @@ classdef Context < handle
     %    generateObstaclesConfig    - Gemerate an obstacle config file
     %    handlizePlannerFilename    - Creates a function handle from string "funcname.m"
 
+    properties (SetAccess = private, GetAccess = public)
+        configFolderName;
+    end
+
+    % Constructor
+    methods
+        function thisContext = Context(config_foldername)
+            % Construct an instance of context
+            disp(config_foldername)
+            folderPath = [pwd filesep 'configurations' filesep char(config_foldername)];
+            if ~isfolder(folderPath)
+                mkdir(folderPath)
+            end
+            thisContext.configFolderName = char(config_foldername);
+        end
+    end
+
+    % Getters and setters
+    methods
+        function setConfigFolderName(thisContext, value)
+            % setConfigFolderName  Set the configuration folder name
+            %   Set configFolderName with a value
+            thisContext.configFolderName = value;
+        end
+        function out = getConfigFolderName(thisContext)
+            % getConfigFolderName  Get the configuration folder name
+            %   Return the value of configFolderName
+            out = thisContext.configFolderName;
+        end
+    end
+
     % Create or import from configuration file
-    methods (Static)
-        function out = importConfig(configFilename)
+    methods
+        function out = importConfig(thisContext, configFilename)
             % importConfig  Decide whether the config file should be created or opened
             %   Feature implemented for those who delete the config file
             %   Checks if the config file is in the folder
-            configFilePath = [pwd filesep 'config' filesep configFilename];
+            configFilePath = [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep configFilename];
             if ~isfile(configFilePath)
-                Context().createConfigFile(configFilename);
+                thisContext.createConfigFile(configFilename);
             end
-            configContents = Context().readConfig(configFilePath);
+            configContents = thisContext.readConfig(configFilePath);
             if configFilename == "cibles.txt"
-                Context().validateContents(configContents{1}, configFilePath);
+                thisContext.validateContents(configContents{1}, configFilePath);
             else
-                Context().validateContents(configContents, configFilePath);
+                thisContext.validateContents(configContents, configFilePath);
             end
             out = configContents;
         end
+    end
 
+    methods (Static)
         function plannerHandle = handlizePlannerFilename(plannerFileName)
             % handlizePlannerFilename  Creates a function handle from string "funcname.m"
             %   Feature implemented so that we can add function name in targets configuration files
-            if isfile([pwd filesep 'config' filesep plannerFileName '.m'])
+            if isfile([pwd filesep plannerFileName '.m'])
                 plannerHandle = eval(['@' plannerFileName]);
             else
                 ME = MException('MATLAB:wrongFilename', ...
@@ -46,36 +90,36 @@ classdef Context < handle
     end
 
     methods (Access=private)
-        function createConfigFile(~, configFilename)
+        function createConfigFile(thisContext, configFilename)
             % createConfigFile  Gemerate a config file
             %   Feature implemented for those who delete the config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
             switch configFilename
                 case "architecture.txt"
-                    Context().generateArchitectureConfig();
+                    thisContext.generateArchitectureConfig();
                 case "cibles.txt"
-                    Context().generateTargetsConfig();
+                    thisContext.generateTargetsConfig();
                 case "obstacles.txt"
-                    Context().generateObstaclesConfig();
+                    thisContext.generateObstaclesConfig();
             end
 
         end
 
-        function out = readConfig(~, configFilePath)
+        function out = readConfig(thisContext, configFilePath)
             % readConfig  Open the config file and return the contents
             %   Return the data inside the configuration file
             %   Looks for float or for what would be floats if this code was written in C.
 
             % Get strFormat and numHeaderLines from configFilePath
             switch configFilePath
-                case [pwd filesep 'config' filesep 'architecture.txt']
+                case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'architecture.txt']
                     strFormat = '%s %f %f %f\r\n';
                     numHeaderLines = 12;
-                case [pwd filesep 'config' filesep 'cibles.txt']
+                case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'cibles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 19;
-                case [pwd filesep 'config' filesep 'obstacles.txt']
+                case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'obstacles.txt']
                     strFormat = '%f %f %f\r\n';
                     numHeaderLines = 11;
             end
@@ -86,7 +130,7 @@ classdef Context < handle
             fclose(fileID);
 
             % Récupération des maximalSpeeds
-            if configFilePath == string([pwd filesep 'config' filesep 'cibles.txt'])
+            if configFilePath == string([pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'cibles.txt'])
                 fid = fopen(configFilePath);
                 maximalSpeeds = textscan(fid,'%f %f %f',1,'delimiter','\n', 'HeaderLines',7);
                 fclose(fid);
@@ -96,7 +140,7 @@ classdef Context < handle
             end
         end
 
-        function validateContents(~, configContents, configFilePath)
+        function validateContents(thisContext, configContents, configFilePath)
             % validateContents  Verify that the data is there and well formatted
             %   As the data is user input, it is important to validate it using data validation techniques.
             %   Since MATLAB can't handle strings conveniently, the code for this part is long
@@ -111,7 +155,7 @@ classdef Context < handle
             % Verifie si toutes les colonnes ont le même nombre de valeurs
             num_colonnes = numel(configContents);
             switch configFilePath
-                case [pwd filesep 'config' filesep 'architecture.txt']
+                case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'architecture.txt']
                     desiredNumColumns = 4;
                 otherwise
                     desiredNumColumns = 3;
@@ -136,11 +180,11 @@ classdef Context < handle
             if ~(range(num_elems) == 0)
                 [~, I] = min(num_elems);
                 switch configFilePath
-                    case [pwd filesep 'config' filesep 'architecture.txt']
+                    case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'architecture.txt']
                         noms_colus = {"de type de joint", "de longueur", "de largeur", "d'angle"};
-                    case [pwd filesep 'config' filesep 'cibles.txt']
+                    case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'cibles.txt']
                         noms_colus = {"de x", "de y", "d'angle"};
-                    case [pwd filesep 'config' filesep 'obstacles.txt']
+                    case [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'obstacles.txt']
                         noms_colus = {"de x", "de y", "de rayon"};
                 end
                 nom_colu = noms_colus{I};
@@ -153,13 +197,13 @@ classdef Context < handle
 
     % Create configuration files
     methods (Access=private)
-        function generateArchitectureConfig(~)
+        function generateArchitectureConfig(thisContext)
             % generateArchitectureConfig  Gemerate an architecture config file
             %   Feature implemented for those who delete the architecture config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            architectureConfigFilePath = [pwd filesep 'config' filesep 'architecture.txt'];
+            architectureConfigFilePath = [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'architecture.txt'];
 
             architectureConfigFileContents = "Configuration de l'architecture et des membres du manipulateur seriel" + newline;
             architectureConfigFileContents = architectureConfigFileContents + "==============================================" + newline;
@@ -185,13 +229,13 @@ classdef Context < handle
             throw(ME)
         end
 
-        function generateTargetsConfig(~)
+        function generateTargetsConfig(thisContext)
             % generateTargetsConfig  Gemerate a target config file
             %   Feature implemented for those who delete the target config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            targetConfigFilePath = [pwd filesep 'config' filesep 'cibles.txt'];
+            targetConfigFilePath = [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'cibles.txt'];
 
             targetConfigFileContents = "Configuration des cibles a atteindre avec le manipulateur seriel" + newline;
             targetConfigFileContents = targetConfigFileContents + "==============================================" + newline;
@@ -224,13 +268,13 @@ classdef Context < handle
             throw(ME)
         end
 
-        function generateObstaclesConfig(~)
+        function generateObstaclesConfig(thisContext)
             % generateObstaclesConfig  Gemerate an obstacle config file
             %   Feature implemented for those who delete the obstacle config file
             %   If you are one of those, the program will create a new config file in the folder
             %   The program will then prompt you to fulfill it with the data of the robot
 
-            obstacleConfigFilePath = [pwd filesep 'config' filesep 'obstacles.txt'];
+            obstacleConfigFilePath = [pwd filesep 'configurations' filesep thisContext.getConfigFolderName() filesep 'obstacles.txt'];
 
             obstacleConfigFileContents = "Configuration des obstacles a eviter avec le manipulateur seriel" + newline;
             obstacleConfigFileContents = obstacleConfigFileContents + "==============================================" + newline;

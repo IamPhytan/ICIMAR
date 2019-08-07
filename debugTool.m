@@ -1,3 +1,3 @@
 clear all
 clc
-main PlannerRRRRRRR_1
+main Planner_RRRRRRR_1 debugConfig

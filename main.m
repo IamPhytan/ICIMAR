@@ -1,7 +1,7 @@
-function main(nomDuPlanificateur)
+function main(nomDuPlanificateur, nomDuDossierDeConfiguration)
     % main - Code principal d'ICIMAR
     %
-    % Syntaxe: main(nomDuPlanificateur)
+    % Syntaxe: main(nomDuPlanificateur, nomDuDossierDeConfiguration)
     %
     % Code à exécuter
 
@@ -13,22 +13,23 @@ function main(nomDuPlanificateur)
     % Mode bavard
     verbose = true;
 
+    % TODO: VideoGen dans une nouvelle branch
 
-    % TODO: VideoGen dans le bon branch
+    % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
+    narginchk(2, 2)
 
-
-    % Vérifie que le nomduPlanificateur est donné dans l'appel
-    narginchk(1, 1)
+    % Créé contexte
+    roboticsContext = Context(nomDuDossierDeConfiguration);
 
     % Import architecture configuration
-    architectureConfig = Context.importConfig('architecture.txt');
+    architectureConfig = roboticsContext.importConfig('architecture.txt');
 
     if verbose
         disp('Architecture importee')
     end
 
     % Import targets configuration
-    targetsConfig = Context.importConfig('cibles.txt');
+    targetsConfig = roboticsContext.importConfig('cibles.txt');
     maximalSpeeds = cell2mat(targetsConfig{2});
     targetsConfig = targetsConfig{1};
 
@@ -37,7 +38,7 @@ function main(nomDuPlanificateur)
     end
 
     % Import obstacles configuration
-    obstaclesConfig = Context.importConfig('obstacles.txt');
+    obstaclesConfig = roboticsContext.importConfig('obstacles.txt');
 
     if verbose
         disp('Obstacles importes')
