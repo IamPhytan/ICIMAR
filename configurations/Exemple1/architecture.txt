@@ -1,0 +1,16 @@
+Configuration de l'architecture et des membres du manipulateur sériel
+==============================================
+Entrez vos paramètres à partir de la ligne 13, après la ligne de '*'
+
+Utilisez la syntaxe suivante avec 'R' pour symboliser un joint rotorique et 'P' pour un joint prismatique :
+<type-de-joint> <longueur> <largeur> <angle>
+
+Par exemple, pour un membre long de 5 unités, large de 2 unités, avec un angle de 60 degrés
+par rapport au membre précédent et relié à celui-ci par un joint rotorique  :
+R 5 2 60
+
+******************************************
+P 1 0.25 0
+P 1 0.25 90
+P 1 0.25 90
+R 1 0.25 90
