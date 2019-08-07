@@ -1,0 +1,7 @@
+function out = NomDuPlanificateur(Architecture,Lengths,Angles,CurrentJointValues,J,Obstacles,xyThetaDot)
+% NomDuPlanificateur Fonction de planification du manipulateur sériel
+
+out=CurrentJointAngles;
+
+end
+
