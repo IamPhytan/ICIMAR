@@ -71,7 +71,7 @@ classdef Arm < handle
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
     %    setParamsFromXandY   - Set members parameters from x and y arrays
-    %    setFromTotLenRelAng  - DEPRECATED - Set members parameters from total lengths and relative angles arrays
+    %    setFromTotLenRelAng  - Set members parameters from total lengths and relative angles arrays
     %
     % Arm Obstacles Methods:
     %    addObstacle          - Add new obstacle for the arm
@@ -281,9 +281,9 @@ classdef Arm < handle
                 thisArm.members(newMemberIndex) = newMember;
                 if logical(thisArm.lastMember)
                     thisArm.members(newMemberIndex).setParent(thisArm.lastMember);
-                else
-                    % Don't want to start by a prismatic joint
-                    thisArm.members(newMemberIndex).setJointType('R');
+                % else
+                %     % Don't want to start by a prismatic joint
+                %     thisArm.members(newMemberIndex).setJointType('R');
                 end
                 thisArm.lastMember = thisArm.members(end);
                 thisArm.totalLength = thisArm.totalLength + long;
@@ -342,13 +342,21 @@ classdef Arm < handle
             thisArm.setLargeWindowRange(round(1.25 * thisArm.getTotalLength(), -1) + 10);
 
             % Axis limits
-            if thisArm.evolutiveAxis
-                xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-                ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            else
-                xlim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-                ylim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            end
+            % if thisArm.evolutiveAxis
+            %     xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            %     ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            % else
+            %     xlim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+            %     ylim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+            % end
+
+            % FIXME
+            xLimit=[-1 3];
+            yLimit=[0 3];
+
+            xlim(ax, xLimit)
+            ylim(ax, yLimit)
+
 
             % Function to draw arrows
             drawArrow = @(plotAxes, x,y, varargin) quiver(plotAxes, x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin{:} );
@@ -399,15 +407,15 @@ classdef Arm < handle
             thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('green'), 'joint');
 
             % Change axis depending on the preferences
-            if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
-                thisArm.largeAxis = 1;
-                xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-                ylim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            elseif thisArm.evolutiveAxis && thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
-                thisArm.largeAxis = 0;
-                xlim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-                ylim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            end
+            % if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
+            %     thisArm.largeAxis = 1;
+            %     xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+            %     ylim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+            % elseif thisArm.evolutiveAxis && thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
+            %     thisArm.largeAxis = 0;
+            %     xlim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            %     ylim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+            % end
 
             % drawnow;
             drawnow limitrate;
@@ -527,7 +535,7 @@ classdef Arm < handle
 
         % TODO: Houston, is there a problem ?
         function setFromTotLenRelAng(thisArm, effLengthsArr, effRelAnglesArr)
-            % setFromTotLenRelAng  DEPRECATED - Set members parameters from total lengths and relative angles arrays
+            % setFromTotLenRelAng  Set members parameters from total lengths and relative angles arrays
             %   Convert total length and relative angle arrays to members params for Vincent's Code
             for iMember=1:length(effLengthsArr)
 
@@ -537,7 +545,7 @@ classdef Arm < handle
 
                 switch thisArm.members(iMember).getJointType()
                     case "R"
-                        thisArm.members(iMember).setRelAngle(effRelAngle);
+                        thisArm.members(iMember).setRelAngle(rad2deg(effRelAngle));
                     case "P"
                         effDiffLength = effTotalLength - thisArm.members(iMember).getInitLength();
                         thisArm.members(iMember).setDiffLength(effDiffLength);

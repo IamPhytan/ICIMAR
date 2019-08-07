@@ -48,8 +48,8 @@ classdef Vincent < handle
                 % Position
                 x = manipulator.getMemberValues("endx");
                 y = manipulator.getMemberValues("endy");
-                absoluteAngles = deg2rad(manipulator.getMemberValues("absangle"));
-                currentPos = [(manipulator.getEndEffector())'; absoluteAngles(end)];
+                absoluteAngles = cumsum(relAngles);
+                currentPos = [(manipulator.getEndEffector())'; sum(relAngles)];
 
                 % Vitesses
                 % Calculs de vitesses (JACOBIENNE)
@@ -84,28 +84,28 @@ classdef Vincent < handle
                 relAngles = jointsR .* resData + jointsP .* relAngles;
                 totLengths = jointsP .* resData + jointsR .* totLengths;
 
-                % Convert angles in XY Pins
-                memberLengths = totLengths;
-                newAbsAngles = cumsum(relAngles);
+                % Set Params from Lengths and Angles
+                manipulator.setFromTotLenRelAng(totLengths, relAngles);
 
-                xyPins = ones(1, n + 1);
-                xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
-                for iMember=1:n
-                    xyPins(:, iMember + 1) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
-                                        memberLengths(iMember) * sin(newAbsAngles(iMember))];
-                end
+                % % Convert angles in XY Pins
+                % memberLengths = totLengths;
+                % newAbsAngles = cumsum(relAngles);
 
-                xValues = cumsum(xyPins(1, :));
-                yValues = cumsum(xyPins(2, :));
+                % xyPins = ones(1, n + 1);
+                % xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
+                % for iMember=1:n
+                %     xyPins(:, iMember + 1) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
+                %                         memberLengths(iMember) * sin(newAbsAngles(iMember))];
+                % end
 
-                manipulator.setParamsFromXandY(xValues, yValues);
+                % xValues = cumsum(xyPins(1, :));
+                % yValues = cumsum(xyPins(2, :));
+
+                % manipulator.setParamsFromXandY(xValues, yValues);
+
 
                 % Show result
                 manipulator.render();
-
-
-                % Set Params from Lengths and Angles - DEPRECATED
-                % manipulator.setFromTotLenRelAng(totLengths, relAngles);
 
                 % Stop at 500 movements
                 mvmt_idx = mvmt_idx + 1;
@@ -126,6 +126,9 @@ classdef Vincent < handle
                 disp(reachedTargetStatus)
                 manipulator.displayInformation(1, reachedTargetStatus)
             end
+
+            % Chi va piano va sano e va lontano
+            pause(0.5);
 
         end
     end
@@ -176,6 +179,8 @@ classdef Vincent < handle
                 reachingArm.displayInformation(2, targetInfo)
 
                 thisVincent.robotGenerique(reachingArm, iRequest, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
+
+                pause(0.5);
 
             end
         end

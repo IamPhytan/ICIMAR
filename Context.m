@@ -32,7 +32,6 @@ classdef Context < handle
     methods
         function thisContext = Context(config_foldername)
             % Construct an instance of context
-            disp(config_foldername)
             folderPath = [pwd filesep 'configurations' filesep char(config_foldername)];
             if ~isfolder(folderPath)
                 mkdir(folderPath)
