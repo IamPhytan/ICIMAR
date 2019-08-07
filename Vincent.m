@@ -38,7 +38,6 @@ classdef Vincent < handle
             div = 50;
             mvmt_idx = 0;
 
-            % TODO: Chaotic
             % Variables évolutives
             relAngles = (deg2rad(manipulator.getMemberValues("relangle")))';
             totLengths = (manipulator.getMemberValues("totalLength"))';
@@ -47,7 +46,6 @@ classdef Vincent < handle
 
                 % SÉRIES DE DONNÉES
                 % Position
-                % FIXME: Possibilité de devoir changer le calcul de ces valeurs
                 x = manipulator.getMemberValues("endx");
                 y = manipulator.getMemberValues("endy");
                 absoluteAngles = deg2rad(manipulator.getMemberValues("absangle"));
@@ -86,29 +84,28 @@ classdef Vincent < handle
                 relAngles = jointsR .* resData + jointsP .* relAngles;
                 totLengths = jointsP .* resData + jointsR .* totLengths;
 
-                % % Set Params from Lengths and Angles
-                manipulator.setFromTotLenRelAng(totLengths, relAngles);
+                % Convert angles in XY Pins
+                memberLengths = totLengths;
+                newAbsAngles = cumsum(relAngles);
 
+                xyPins = ones(1, n + 1);
+                xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
+                for iMember=1:n
+                    xyPins(:, iMember + 1) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
+                                        memberLengths(iMember) * sin(newAbsAngles(iMember))];
+                end
 
+                xValues = cumsum(xyPins(1, :));
+                yValues = cumsum(xyPins(2, :));
 
-                % % % Convert angles in XY Pins
-                % memberLengths = totLengths;
-                % newAbsAngles = cumsum(relAngles);
-
-                % xyPins = ones(1, n + 1);
-                % xyPins = [manipulator.getX(); manipulator.getY()] * xyPins;
-                % for iMember=1:n
-                %     xyPins(:, iMember + 1) = [memberLengths(iMember) * cos(newAbsAngles(iMember));
-                %                         memberLengths(iMember) * sin(newAbsAngles(iMember))];
-                % end
-
-                % xValues = cumsum(xyPins(1, :));
-                % yValues = cumsum(xyPins(2, :));
-
-                % manipulator.setParamsFromXandY(xValues, yValues);
+                manipulator.setParamsFromXandY(xValues, yValues);
 
                 % Show result
                 manipulator.render();
+
+
+                % Set Params from Lengths and Angles - DEPRECATED
+                % manipulator.setFromTotLenRelAng(totLengths, relAngles);
 
                 % Stop at 500 movements
                 mvmt_idx = mvmt_idx + 1;
