@@ -1,7 +1,7 @@
-function main(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
-    % main - Code principal d'ICIMAR
+function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
+    % ICIMAR - Code principal d'ICIMAR
     %
-    % Syntaxe: main(nomDuPlanificateur, nomDuDossierDeConfiguration, verbose, changeAxis)
+    % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, verbose, changeAxis)
     %
     % Code à exécuter
 
