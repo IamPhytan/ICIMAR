@@ -71,7 +71,7 @@ classdef Arm < handle
     % Arm Target Methods:
     %    addTarget            - Add new target for the arm
     %    setParamsFromXandY   - Set members parameters from x and y arrays
-    %    setFromTotLenRelAng  - Set members parameters from total lengths and relative angles arrays
+    %    setFromTotLenRelAng  - DEPRECATED - Set members parameters from total lengths and relative angles arrays
     %
     % Arm Obstacles Methods:
     %    addObstacle          - Add new obstacle for the arm
@@ -111,7 +111,7 @@ classdef Arm < handle
     % Constructor
     methods
         function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, change_axis)
-            % Construct an instance of member
+            % Construct an instance of arm
             if nargin == 0
                 thisArm.x = 0;
                 thisArm.y = 0;
@@ -493,7 +493,6 @@ classdef Arm < handle
             thisArm.obstacles(newObstacleIndex) = obstacle;
         end
 
-        % TODO: Verify that the xs and ys are good for Ps and Rs
         function setParamsFromXandY(thisArm, xs, ys)
             % setParamsFromXandY  Set members parameters from x and y arrays
             %   Convert x and y arrays to members params for Vincent's Code
@@ -528,7 +527,7 @@ classdef Arm < handle
 
         % TODO: Houston, is there a problem ?
         function setFromTotLenRelAng(thisArm, effLengthsArr, effRelAnglesArr)
-            % setFromTotLenRelAng  Set members parameters from total lengths and relative angles arrays
+            % setFromTotLenRelAng  DEPRECATED - Set members parameters from total lengths and relative angles arrays
             %   Convert total length and relative angle arrays to members params for Vincent's Code
             for iMember=1:length(effLengthsArr)
 
