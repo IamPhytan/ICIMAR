@@ -9,5 +9,4 @@ Par exemple, pour un obstacle de rayon 3 centré au point (2, 4) :
 2 4 3
 
 ******************************************
--5 5 1
-0 5 1
+-5000 -5000 1
