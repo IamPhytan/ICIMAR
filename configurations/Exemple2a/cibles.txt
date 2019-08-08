@@ -1,0 +1,22 @@
+Configuration des cibles à atteindre avec le manipulateur sériel
+==============================================
+
+Entrez les vitesses cartésiennes maximales de l'organe terminal, après la ligne de '+'
+Utilisez la syntaxe suivante :
+<vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degrés>
+++++++++++++++++++++++++++++++++
+0.05 0.05 3
+
+==============================================
+Entrez vos paramètres à partir de la ligne 20, après la ligne de '*'
+
+Utilisez la syntaxe suivante :
+<x> <y> <angle-en-degrés>
+
+Par exemple, pour une cible au point (4, 7) à atteindre avec un angle de 35 degrés :
+4 7 35
+
+******************************************
+1 -0.5  90
+1  3    90
+

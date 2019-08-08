@@ -51,15 +51,16 @@ ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
 ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
 
 
+
 %
 % Exemple 2 - Atteindre un point avec un robot R x n
 %   Passage dans les obstacles
 %
 
-% Architecture : ['P', 'P', 'P', 'R']
-% Longueurs : [1, 1, 1, 1]
-% Angles : [0, 90, 90, 90]
-% Vitesse cartésiennes maximales de l'organe terminal : [0.03, 0.03, 3]
+% Architecture : ['R'] * n
+% Longueurs : [1.5 * pi / n] * n
+% Angles : [-90] + [pi / n] * 19
+% Vitesse cartésiennes maximales de l'organe terminal : [0.05, 0.05, 3]
 % Cibles à atteindre : [
 %     {
 %         x : 1,
@@ -73,26 +74,26 @@ ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
 %     }
 % ]
 
-% axisLimits = [
-%     [-1, 3];
-%     [ 0, 3]
-% ];
+axisLimits = [
+    [-1, 3];
+    [-2, 3]
+];
 
 
-% %
-% % a) Planner_PosOnly
-% %
+%
+% a) Planner_PosOnly
+%
 
-% % ICIMAR Planner_PosOnly Exemple1
-% ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
+% ICIMAR Planner_PosOnly Exemple2a
+ICIMAR('Planner_PosOnly', 'Exemple2a', axisLimits)
 
 
-% %
-% % b) Planner_Critere_mid_Prismatic
-% %
+%
+% b) Planner_Critere_Mem_Dist
+%
 
-% % ICIMAR Planner_Critere_mid_Prismatic Exemple1
-% ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
+% ICIMAR Planner_Critere_Mem_Dist Exemple2b
+ICIMAR('Planner_Critere_Mem_Dist', 'Exemple2b', axisLimits)
 
 
 
