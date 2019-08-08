@@ -3,13 +3,9 @@ clc
 
 % PARAMETRES PAR DEFAUT
 
-% Mode bavard
-verbose = true;
 
-% Axes changeants, selon la préférence
-% Vincent = true / Clément = false
-changeAxis = true;
 
+% ================================ EXEMPLES ================================
 
 %
 % Exemple 1
@@ -32,19 +28,26 @@ changeAxis = true;
 %     }
 % ]
 
+axisLimits = [
+    [-1, 3];
+    [ 0, 3]
+];
+
 
 %
 % a) Planner_PosOnly
 %
 
-ICIMAR Planner_PosOnly Exemple1
+% ICIMAR Planner_PosOnly Exemple1
+ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
 
 
 %
 % b) Planner_Critere_mid_Prismatic
 %
 
-ICIMAR Planner_Critere_mid_Prismatic Exemple1
+% ICIMAR Planner_Critere_mid_Prismatic Exemple1
+ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
 
 
 

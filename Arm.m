@@ -15,6 +15,7 @@ classdef Arm < handle
     %    largeAxis         - Large window range
     %    maxEndSpeeds      - Maximal end effector speeds
     %    plannerFunc       - Planner function handle
+    %    axisLimits        - Manual axis limits settings (Set to 'auto' for automatic axis limits)
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %    currentTarget     - Current target of the arm
     %    information       - Two lines of information to display in the title of the figure
@@ -58,10 +59,6 @@ classdef Arm < handle
     %
     %
     % Arm Methods:
-    %    logical              - Return the existence of arm member
-    %    computeAbsoluteAngle - Compute absolute angle about the x axis before the i-th member of the arm
-    %    getEndX              - Compute ending X coordinate
-    %    getEndY              - Compute ending Y coordinate
     %    addMember            - Add new member of defined length to the arm
     %    render               - Plot the arm in a figure
     %    getMemberValues      - Return the values of valueType for all arm members
@@ -94,6 +91,7 @@ classdef Arm < handle
         plannerFunc;
         targets;
         obstacles;
+        axisLimits;
         evolutiveAxis;
         currentTarget;
         information = {"", ""};
@@ -119,7 +117,7 @@ classdef Arm < handle
 
     % Constructor
     methods
-        function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, change_axis)
+        function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, axis_limits, change_axis)
             % Construct an instance of arm
             if nargin == 0
                 thisArm.x = 0;
@@ -133,12 +131,21 @@ classdef Arm < handle
             thisArm.members = Member.empty;
             thisArm.lastMember = false;
             thisArm.totalLength = 0;
+
             max_speeds(3) = deg2rad(max_speeds(3));
+
             thisArm.maxEndSpeeds = max_speeds;
             thisArm.plannerFunc = planner_func;
+
+            if isa(axis_limits, 'double') && all(size(axis_limits) == [2 2])
+                thisArm.axisLimits = axis_limits;
+            else
+                thisArm.axisLimits = 'auto';
+            end
+            thisArm.evolutiveAxis = change_axis;
+
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
-            thisArm.evolutiveAxis = change_axis;
             thisArm.currentTarget = struct('x', 0, 'y', 0, 'exists', false);
         end
     end
@@ -351,20 +358,27 @@ classdef Arm < handle
             thisArm.setLargeWindowRange(round(1.25 * thisArm.getTotalLength(), -1) + 10);
 
             % Axis limits
-            % if thisArm.evolutiveAxis
-            %     xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            %     ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            % else
-            %     xlim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            %     ylim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            % end
+            if isa(thisArm.axisLimits, 'double')
+                xLimits = thisArm.axisLimits(1, :);
+                yLimits = thisArm.axisLimits(2, :);
+                xlim(ax, xLimits)
+                ylim(ax, yLimits)
+            else
+                if thisArm.evolutiveAxis
+                    xlim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+                    ylim(ax, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+                else
+                    xlim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+                    ylim(ax, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+                end
+            end
 
-            % FIXME
-            xLimit=[-1 3];
-            yLimit=[0 3];
+            % % FIXME
+            % xLimit=[-1 3];
+            % yLimit=[0 3];
 
-            xlim(ax, xLimit)
-            ylim(ax, yLimit)
+            % xlim(ax, xLimit)
+            % ylim(ax, yLimit)
 
 
             % Function to draw arrows
@@ -416,15 +430,17 @@ classdef Arm < handle
             thisArm.drawCircle(thisArm.renderAxes, eEffector(1), eEffector(2), thisArm.members(end).getWidth(), thisArm.colors('pink'), 'joint');
 
             % Change axis depending on the preferences
-            % if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
-            %     thisArm.largeAxis = 1;
-            %     xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            %     ylim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
-            % elseif thisArm.evolutiveAxis && thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
-            %     thisArm.largeAxis = 0;
-            %     xlim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            %     ylim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
-            % end
+            if ~isa(thisArm.axisLimits, 'double')
+                if thisArm.evolutiveAxis && ~thisArm.largeAxis && any(eEffector < -thisArm.getSmallWindowRange())
+                    thisArm.largeAxis = 1;
+                    xlim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+                    ylim(thisArm.renderAxes, [-thisArm.getLargeWindowRange(), thisArm.getLargeWindowRange()]);
+                elseif thisArm.evolutiveAxis && thisArm.largeAxis && all(eEffector > -thisArm.getSmallWindowRange())
+                    thisArm.largeAxis = 0;
+                    xlim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+                    ylim(thisArm.renderAxes, [-thisArm.getSmallWindowRange(), thisArm.getLargeWindowRange()]);
+                end
+            end
 
             % drawnow;
             drawnow limitrate;

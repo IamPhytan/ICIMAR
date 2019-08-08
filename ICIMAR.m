@@ -1,33 +1,40 @@
 function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % ICIMAR - Code principal d'ICIMAR
     %
-    % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, verbose, changeAxis)
+    % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, axisLimits='auto')
     %
     % Code à exécuter
 
     % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
-    narginchk(2, 4)
+    narginchk(2, 3)
+
+
 
     % PARAMETRES PAR DEFAUT
+    axisLimits = 'auto';
+
+    % Axes changeants, selon la préférence
+    % Vincent = true / Clément = false
+    automaticChangingAxis = true;
+
+    % Mode bavard
     verbose = true;
-    changeAxis = false;
 
     try
-        verbose = eval(varargin{1});
-        changeAxis = eval(varargin{2});
+        axisLimits = varargin{1};
     end
 
-    if (nargin < 3) || isempty(verbose)
-        % Mode bavard
-        verbose = true;
-    end
-    if (nargin < 4) || isempty(changeAxis)
-        % Axes changeants, selon la préférence
-        % Vincent = true / Clément = false
-        changeAxis = false;
-    end
 
+
+    % TODO: Obstacles
+    % TODO: Color Theme
+    % TODO: Examples
     % TODO: VideoGen dans une nouvelle branch
+
+
+
+
+
 
     % Créé contexte
     roboticsContext = Context(nomDuDossierDeConfiguration);
@@ -69,7 +76,7 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     nArchitecture = length(architectureConfig{1});
 
     % Create Arm
-    arm = Arm(nArchitecture, 0, 0, maximalSpeeds, plannerHandle, changeAxis);
+    arm = Arm(nArchitecture, 0, 0, maximalSpeeds, plannerHandle, axisLimits, automaticChangingAxis);
 
     for memberIndex = 1:nArchitecture
         jointKind = architectureConfig{1}{memberIndex};
