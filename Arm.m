@@ -373,14 +373,6 @@ classdef Arm < handle
                 end
             end
 
-            % % FIXME
-            % xLimit=[-1 3];
-            % yLimit=[0 3];
-
-            % xlim(ax, xLimit)
-            % ylim(ax, yLimit)
-
-
             % Function to draw arrows
             drawArrow = @(plotAxes, x,y, varargin) quiver(plotAxes, x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin{:} );
 
