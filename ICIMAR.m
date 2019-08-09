@@ -13,12 +13,9 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % PARAMETRES PAR DEFAUT
     axisLimits = 'auto';
 
-    % Axes changeants, selon la préférence
-    % Vincent = true / Clément = false
-    automaticChangingAxis = true;
+    automaticChangingAxis = true; % Axes changeants, selon la préférence (Vincent = true / Clément = false)
 
-    % Mode bavard
-    verbose = true;
+    verbose = true; % Mode bavard
 
     try
         axisLimits = varargin{1};
@@ -26,8 +23,6 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
 
 
 
-    % TODO: Obstacles
-    % TODO: Color Theme
     % TODO: Examples
     % TODO: VideoGen dans une nouvelle branch
 
