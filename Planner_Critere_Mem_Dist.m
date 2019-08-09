@@ -2,8 +2,6 @@ function [out] = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJoi
 % Planner_Critere_Mem_Dist
 %   Optimisation d'un critère
 
-    % TODO: Refactor
-
     % Incrément infinitésimal
     h=0.00001;
 

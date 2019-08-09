@@ -22,13 +22,8 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     end
 
 
-
     % TODO: Examples
     % TODO: VideoGen dans une nouvelle branch
-
-
-
-
 
 
     % Créé contexte

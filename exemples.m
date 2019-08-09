@@ -1,8 +1,6 @@
 clear('all');
 clc
 
-% FIXME:
-
 % ================================ EXEMPLES ================================
 
 %
@@ -38,7 +36,7 @@ axisLimits = [
 %
 
 % ICIMAR Planner_PosOnly Exemple1
-% ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
+ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
 
 
 %
@@ -46,7 +44,7 @@ axisLimits = [
 %
 
 % ICIMAR Planner_Critere_mid_Prismatic Exemple1
-% ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
+ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
 
 
 
@@ -121,7 +119,7 @@ axisLimits = [
 %
 
 % ICIMAR Planner_PosOnly Exemple2
-% ICIMAR('Planner_PosOnly', 'Exemple2', axisLimits)
+ICIMAR('Planner_PosOnly', 'Exemple2', axisLimits)
 
 
 %
