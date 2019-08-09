@@ -11,21 +11,20 @@ function [out] = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJoi
     distIncrem = zeros(size(Lengths));
     distDecrem = zeros(size(Lengths));
 
-
     for idx = 1:length(Architecture)
-        tempValues = [Lengths; Angles];
+        tempValues = [Lengths, Angles];
 
-        incLength = tempValues(1, idx) + h * (Architecture(idx) == 'P');
-        incAngle = tempValues(2, idx) + h * (Architecture(idx) == 'R');
-        tempValues(:, idx) = [incLength; incAngle];
+        incLength = tempValues(idx, 1) + h * (Architecture(idx) == 'P');
+        incAngle = tempValues(idx, 2) + h * (Architecture(idx) == 'R');
+        tempValues(idx, :) = [incLength, incAngle];
 
-        distIncrem(idx) = DistToJointCalculator(Obstacles, tempValues(1, :), tempValues(2, :));
+        distIncrem(idx, :) = DistToJointCalculator(Obstacles, tempValues(:, 1), tempValues(:, 2));
 
-        decLength = tempValues(1, idx) - h * (Architecture(idx) == 'P');
-        decAngle = tempValues(2, idx) - h * (Architecture(idx) == 'R');
-        tempValues(:, idx) = [decLength; decAngle];
+        decLength = tempValues(idx, 1) - h * (Architecture(idx) == 'P');
+        decAngle = tempValues(idx, 2) - h * (Architecture(idx) == 'R');
+        tempValues(idx, :) = [decLength, decAngle];
 
-        distDecrem(idx) = DistToJointCalculator(Obstacles, tempValues(1, :), tempValues(2, :));
+        distDecrem(idx, :) = DistToJointCalculator(Obstacles, tempValues(:, 1), tempValues(:, 2));
     end
 
 
