@@ -21,8 +21,6 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
         axisLimits = varargin{1};
     end
 
-
-    % TODO: Examples
     % TODO: VideoGen dans une nouvelle branch
 
 
