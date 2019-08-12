@@ -1,4 +1,4 @@
-function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
+function arm = ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % ICIMAR - Code principal d'ICIMAR
     %
     % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, axisLimits='auto')
