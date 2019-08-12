@@ -3,7 +3,7 @@ clc
 
 % ================================ EXEMPLES ================================
 
-%
+%%
 % Exemple 1 - Atteindre un point avec un robot PPPR
 %   Il est à noter qu'un des joints prismatiques aura une longueur négative.
 %
@@ -31,7 +31,7 @@ axisLimits = [
 ];
 
 
-%
+%%
 % a) Planner_PosOnly
 %
 
@@ -39,7 +39,7 @@ axisLimits = [
 ICIMAR('Planner_PosOnly', 'Exemple1', axisLimits)
 
 
-%
+%%
 % b) Planner_Critere_mid_Prismatic
 %
 
@@ -48,7 +48,7 @@ ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits)
 
 
 
-%
+%%
 % Exemple 2 - Atteindre un point avec un robot R x n
 %   Passage dans et entre les obstacles
 %
@@ -114,7 +114,7 @@ axisLimits = [
 ];
 
 
-%
+%%
 % a) Planner_PosOnly
 %
 
@@ -122,7 +122,7 @@ axisLimits = [
 ICIMAR('Planner_PosOnly', 'Exemple2', axisLimits)
 
 
-%
+%%
 % b) Planner_Critere_Mem_Dist
 %
 
