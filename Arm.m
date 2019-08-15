@@ -19,6 +19,7 @@ classdef Arm < handle
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %    currentTarget     - Current target of the arm
     %    information       - Two lines of information to display in the title of the figure
+    %    videoFrames       - Video Frames for video generation
     %
     % Arm Target Properties:
     %    targets           - Array of arm targets
@@ -47,6 +48,7 @@ classdef Arm < handle
     %    getCurrentTarget     - Get the current target of the arm
     %    setInformation       - Set the information displayed in the title of the figure
     %    getInformation       - Get the information displayed in the title of the figure
+    %    getFrames            - Get video frames of the arm
     %
     % Arm Target Setter and Getters:
     %    setTargets           - Set targets
@@ -94,7 +96,8 @@ classdef Arm < handle
         axisLimits;
         evolutiveAxis;
         currentTarget;
-        information = {"", ""};
+        information = {"", ""}
+        videoFrames;
     end
 
     properties (Constant)
@@ -147,6 +150,8 @@ classdef Arm < handle
             thisArm.targets = struct('x',{},'y',{}, 'theta', {});
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
             thisArm.currentTarget = struct('x', 0, 'y', 0, 'exists', false);
+
+            thisArm.videoFrames = [];
         end
     end
 
@@ -284,6 +289,12 @@ classdef Arm < handle
             % getInformation  Get the information displayed in the title of the figure
             %   Return the value of information
             out = thisArm.information;
+        end
+
+        function out = getFrames(thisArm)
+            % getFrames  Get the video frames of the arm
+            %   Return the value of videoFrames
+            out = thisArm.videoFrames;
         end
     end
 
@@ -436,6 +447,12 @@ classdef Arm < handle
 
             % drawnow;
             drawnow limitrate;
+
+            if isstruct(thisArm.videoFrames)
+                thisArm.videoFrames(length(thisArm.videoFrames) + 1) = getframe(thisArm.renderAxes);
+            else
+                thisArm.videoFrames = getframe(thisArm.renderAxes);
+            end
         end
 
         function endEffector = getEndEffector(thisArm)
