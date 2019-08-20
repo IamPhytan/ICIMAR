@@ -1,4 +1,4 @@
-function arm = ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
+function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % ICIMAR - Code principal d'ICIMAR
     %
     % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, axisLimits='auto')
@@ -14,15 +14,11 @@ function arm = ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     axisLimits = 'auto';
 
     automaticChangingAxis = true; % Axes changeants, selon la préférence (Vincent = true / Clément = false)
-
     verbose = true; % Mode bavard
 
     try
         axisLimits = varargin{1};
     end
-
-    % TODO: VideoGen dans une nouvelle branch
-
 
     % Créé contexte
     roboticsContext = Context(nomDuDossierDeConfiguration);
