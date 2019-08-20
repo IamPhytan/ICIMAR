@@ -6,6 +6,18 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % Code à exécuter
     %
     %
+    % Exemples d'appels:
+    %
+    % ICIMAR Planner_Critere_Mem_Dist Exemple1                                                 % <-- Fournit seulement le nomDuPlanificateur et le nomDuDossierDeConfiguration (axisLimits = 'auto')
+    %
+    % ICIMAR('MonPlanificateur', 'MaConfiguration', 'auto');                                   % <-- Utilise explicitement le mode automatique des limites d'axe
+    % ICIMAR('MonPlanificateur', 'MaConfiguration', [mesLimitesEnX; mesLimitesEnY]);           % <-- Fournit le nomDuPlanificateur et les limites d'axe
+    %
+    % ICIMAR('MonPlanificateur', 'MaConfiguration', 'auto', true);                             % <-- Génère des vidéos avec un axe défini automatiquement
+    % ICIMAR('MonPlanificateur', 'MaConfiguration', [mesLimitesEnX; mesLimitesEnY], true);     % <-- Génère des vidéos avec des limites axes prédéfinies
+    %
+    %
+    %
     % Paramètres obligatoires:
     %
     % param nomDuPlanificateur              : Nom de la fonction de planification utilisée
@@ -26,18 +38,18 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % Paramètres à changer dans le fichier:
     %
     % param automaticChangingAxis           : Booléen pour zoomer sur le bras lorsqu'il se trouve dans le premier quadrant. Ne fonctionne que si `axisLimits` est en mode automatique
-    %       * Valeur par défaut : true (Zoom automatique)
+    %       * Valeur par défaut : false (Zoom automatique)
     %       * Valeur attendue   : true ou false
     %
     %
     % param verbose                         : Mode bavard / Affiche des messages de progrès ("Architecture importée", "Création du bras", ...)
-    %       * Valeur par défaut : true (Zoom automatique)
+    %       * Valeur par défaut : true (Affiche l'état de l'exécution)
     %       * Valeur attendue   : true ou false
     %
     %
 
     % PARAMETRES À CHANGER
-    automaticChangingAxis = true; % Axes changeants, selon la préférence (Vincent = true / Clément = false)
+    automaticChangingAxis = false; % Axes changeants, selon la préférence (Vincent = true / Clément = false)
     verbose = true; % Mode bavard
 
 
