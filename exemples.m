@@ -48,6 +48,7 @@ ICIMAR('Planner_Critere_mid_Prismatic', 'Exemple1', axisLimits);
 
 
 
+
 %%
 % Exemple 2 - Atteindre un point avec un robot R x n
 %   Passage dans et entre les obstacles
@@ -128,14 +129,4 @@ ICIMAR('Planner_PosOnly', 'Exemple2', axisLimits);
 
 % ICIMAR Planner_Critere_Mem_Dist Exemple2
 ICIMAR('Planner_Critere_Mem_Dist', 'Exemple2', axisLimits);
-
-
-
-
-
-
-
-
-
-
 
