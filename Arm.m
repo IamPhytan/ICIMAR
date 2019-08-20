@@ -19,6 +19,7 @@ classdef Arm < handle
     %    evolutiveAxis     - Enable axis mode (Vincent = true / Clément = false)
     %    currentTarget     - Current target of the arm
     %    information       - Two lines of information to display in the title of the figure
+    %    videoGeneration   - Enable video generation mode
     %    videoFrames       - Video Frames for video generation
     %
     % Arm Target Properties:
@@ -97,6 +98,7 @@ classdef Arm < handle
         evolutiveAxis;
         currentTarget;
         information = {"", ""}
+        videoGeneration;
         videoFrames;
     end
 
@@ -120,7 +122,7 @@ classdef Arm < handle
 
     % Constructor
     methods
-        function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, axis_limits, change_axis)
+        function thisArm = Arm(armsize, base_x, base_y, max_speeds, planner_func, axis_limits, change_axis, generate_videos)
             % Construct an instance of arm
             if nargin == 0
                 thisArm.x = 0;
@@ -151,6 +153,7 @@ classdef Arm < handle
             thisArm.obstacles = struct('x',{},'y',{}, 'radius', {});
             thisArm.currentTarget = struct('x', 0, 'y', 0, 'exists', false);
 
+            thisArm.videoGeneration = generate_videos;
             thisArm.videoFrames = [];
         end
     end
@@ -448,11 +451,14 @@ classdef Arm < handle
             % drawnow;
             drawnow limitrate;
 
-            if isstruct(thisArm.videoFrames)
-                thisArm.videoFrames(length(thisArm.videoFrames) + 1) = getframe(thisArm.renderAxes);
-            else
-                thisArm.videoFrames = getframe(thisArm.renderAxes);
+            if thisArm.videoGeneration
+                if isstruct(thisArm.videoFrames)
+                    thisArm.videoFrames(length(thisArm.videoFrames) + 1) = getframe(thisArm.renderAxes);
+                else
+                    thisArm.videoFrames = getframe(thisArm.renderAxes);
+                end
             end
+
         end
 
         function endEffector = getEndEffector(thisArm)
