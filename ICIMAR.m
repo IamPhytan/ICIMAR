@@ -99,12 +99,29 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     vinc = Vincent;
     vinc.reachTargets(arm);
 
-
     % OUTPUT des valeurs
     if verbose
         eEffector = arm.getEndEffector();
         fprintf('\n\nCoordonnees de l''organe terminal\n===============\n\nx: %f, y: %f\n\n\n', eEffector(1), eEffector(2))
     end
+
+
+    % Video Generation
+    videoExtension = 'mp4'; % mp4 or avi
+    videoFileName = sprintf('%s-%s-%s.%s', char(nomDuDossierDeConfiguration), char(nomDuPlanificateur), char(architectureConfig{1})', videoExtension);
+    videoOutputPath = [pwd filesep 'videos' filesep videoFileName];
+
+    switch videoExtension
+    case 'mp4'
+        genType = 'MPEG-4';
+    case 'avi'
+        genType = 'Uncompressed AVI';
+    end
+
+    videoGenerator = VideoWriter(videoOutputPath, genType);
+    open(videoGenerator);
+    writeVideo(videoGenerator, arm.getFrames());
+    close(videoGenerator);
 
 end
 
