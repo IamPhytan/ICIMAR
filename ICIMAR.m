@@ -14,7 +14,7 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % ICIMAR('MonPlanificateur', 'MaConfiguration', [mesLimitesEnX; mesLimitesEnY]);           % <-- Fournit le nomDuPlanificateur et les limites d'axe
     %
     % ICIMAR('MonPlanificateur', 'MaConfiguration', 'auto', true);                             % <-- Génère des vidéos avec un axe défini automatiquement
-    % ICIMAR('MonPlanificateur', 'MaConfiguration', [mesLimitesEnX; mesLimitesEnY], true);     % <-- Génère des vidéos avec des limites axes prédéfinies
+    % ICIMAR('MonPlanificateur', 'MaConfiguration', [mesLimitesEnX; mesLimitesEnY], true);     % <-- Génère des vidéos avec des limites d'axes prédéfinies
     %
     %
     %
