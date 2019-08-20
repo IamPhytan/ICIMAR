@@ -103,10 +103,10 @@ function arm = ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     vinc = Vincent;
     vinc.reachTargets(arm);
 
-    eEffector = arm.getEndEffector();
 
     % OUTPUT des valeurs
     if verbose
+        eEffector = arm.getEndEffector();
         fprintf('\n\nCoordonnees de l''organe terminal\n===============\n\nx: %f, y: %f\n\n\n', eEffector(1), eEffector(2))
     end
 
