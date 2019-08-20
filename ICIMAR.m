@@ -4,20 +4,55 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     % Syntaxe: ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, axisLimits='auto')
     %
     % Code à exécuter
+    %
+    %
+    % Paramètres obligatoires:
+    %
+    % param nomDuPlanificateur              : Nom de la fonction de planification utilisée
+    % param nomDuDossierDeConfiguration     : Nom du dossier de configuration avec l'architecture du bras, les cibles à atteindre et les obstacles à éviter
+    %
+    %
+    % Paramètres optionnels:
+    %
+    % param axisLimits                      : Limites d'axes (string pour signifier des valeurs automatiques, array pour des valeurs de configuration)
+    %       * Valeur par défaut : 'auto'
+    %       * Valeur attendue   : [[x_min, x_max]; [y_min, y_max]]
+    %
+    % param videoGeneration                 : Booléen indiquant si une vidéo sera générée avec l'exécution (La génération ralentit l'exécution)
+    %       * Valeur par défaut : false
+    %       * Valeur attendue   : true ou false
+    %
+    %
+    % Paramètres à changer dans le fichier:
+    %
+    % param automaticChangingAxis           : Booléen pour zoomer sur le bras lorsqu'il se trouve dans le premier quadrant. Ne fonctionne que si `axisLimits` est en mode automatique
+    %       * Valeur par défaut : true (Zoom automatique)
+    %       * Valeur attendue   : true ou false
+    %
+    %
+    % param verbose                         : Mode bavard / Affiche des messages de progrès ("Architecture importée", "Création du bras", ...)
+    %       * Valeur par défaut : true (Zoom automatique)
+    %       * Valeur attendue   : true ou false
+    %
+    %
 
-    % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
-    narginchk(2, 3)
-
-
-
-    % PARAMETRES PAR DEFAUT
-    axisLimits = 'auto';
-
+    % PARAMETRES À CHANGER
     automaticChangingAxis = true; % Axes changeants, selon la préférence (Vincent = true / Clément = false)
     verbose = true; % Mode bavard
 
+
+
+
+    % Vérifie que le nomduPlanificateur et le nomDuDossierDeConfiguration sont donnés dans l'appel
+    narginchk(2, 4)
+
+    % PARAMETRES PAR DEFAUT
+    axisLimits = 'auto';
+    videoGeneration = false;
+
     try
         axisLimits = varargin{1};
+        videoGeneration = varargin{2};
     end
 
     % Créé contexte
@@ -60,7 +95,7 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
     nArchitecture = length(architectureConfig{1});
 
     % Create Arm
-    arm = Arm(nArchitecture, 0, 0, maximalSpeeds, plannerHandle, axisLimits, automaticChangingAxis);
+    arm = Arm(nArchitecture, 0, 0, maximalSpeeds, plannerHandle, axisLimits, automaticChangingAxis, videoGeneration);
 
     for memberIndex = 1:nArchitecture
         jointKind = architectureConfig{1}{memberIndex};
@@ -107,21 +142,27 @@ function ICIMAR(nomDuPlanificateur, nomDuDossierDeConfiguration, varargin)
 
 
     % Video Generation
-    videoExtension = 'mp4'; % mp4 or avi
-    videoFileName = sprintf('%s-%s-%s.%s', char(nomDuDossierDeConfiguration), char(nomDuPlanificateur), char(architectureConfig{1})', videoExtension);
-    videoOutputPath = [pwd filesep 'videos' filesep videoFileName];
+    if videoGeneration
+        videoExtension = 'mp4'; % mp4 or avi
+        videoFileName = sprintf('%s-%s-%s.%s', char(nomDuDossierDeConfiguration), char(nomDuPlanificateur), char(architectureConfig{1})', videoExtension);
+        videoOutputPath = [pwd filesep 'videos' filesep videoFileName];
 
-    switch videoExtension
-    case 'mp4'
-        genType = 'MPEG-4';
-    case 'avi'
-        genType = 'Uncompressed AVI';
+        switch videoExtension
+        case 'mp4'
+            genType = 'MPEG-4';
+        case 'avi'
+            genType = 'Uncompressed AVI';
+        end
+
+        videoGenerator = VideoWriter(videoOutputPath, genType);
+        open(videoGenerator);
+        writeVideo(videoGenerator, arm.getFrames());
+        close(videoGenerator);
+
+        if verbose
+            disp('Video generee')
+        end
     end
-
-    videoGenerator = VideoWriter(videoOutputPath, genType);
-    open(videoGenerator);
-    writeVideo(videoGenerator, arm.getFrames());
-    close(videoGenerator);
 
 end
 
