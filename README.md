@@ -76,18 +76,18 @@ Atteindre un point avec un robot PPPR
 
 #### Planificateur _PosOnly_
 
->![Video de l'exemple](./videos/Exemple1-Planner_PosOnly-PPPR.mp4)
+>![Vidéo de l'exemple](./videos/Exemple1-Planner_PosOnly-PPPR.mp4)
 
 #### Planificateur _Critere_mid_prismatic_
 
->![Video de l'exemple](./videos/Exemple1-Planner_Critere_mid_Prismatic-PPPR.mp4)
+>![Vidéo de l'exemple](./videos/Exemple1-Planner_Critere_mid_Prismatic-PPPR.mp4)
 
 ### Exemple 2
 
 #### Planificateur _PosOnly_
 
->![Video de l'exemple](./videos/Exemple2-Planner_PosOnly-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
+>![Vidéo de l'exemple](./videos/Exemple2-Planner_PosOnly-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
 
 #### Planificateur _Critere_Mem_Dist_
 
->![Video de l'exemple](./videos/Exemple2-Planner_Critere_Mem_Dist-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
+>![Vidéo de l'exemple](./videos/Exemple2-Planner_Critere_Mem_Dist-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
