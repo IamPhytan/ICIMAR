@@ -180,6 +180,8 @@ classdef Vincent < handle
 
                 thisVincent.robotGenerique(reachingArm, iRequest, architecture, request, maximalEndSpeeds, obstaclesList, plannerHandle);
 
+                fprintf('\n==================================================================\n')
+
                 pause(0.5);
 
             end
