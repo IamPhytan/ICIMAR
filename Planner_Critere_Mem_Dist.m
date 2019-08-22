@@ -18,6 +18,8 @@ function [out] = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJoi
 
         distIncrem(idx, :) = DistToJointCalculator(Obstacles, tempValues(:, 1), tempValues(:, 2));
 
+        tempValues = [Lengths, Angles];
+
         decLength = tempValues(idx, 1) - h * (Architecture(idx) == 'P');
         decAngle = tempValues(idx, 2) - h * (Architecture(idx) == 'R');
         tempValues(idx, :) = [decLength, decAngle];
