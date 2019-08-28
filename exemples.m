@@ -195,26 +195,26 @@ ICIMAR('Planner_Critere_Mem_Dist', 'Exemple2', axisLimits);
 %     }
 % ]
 
-axisLimits = [
-    [-12, 15];
-    [-1, 14]
-];
-
 
 %%
 % a) Planner_PosOnly
 %
 
+axisLimits = [
+    [-12, 15];
+    [-5, 15]
+];
+
 ICIMAR('Planner_PosOnly', 'Exemple3', axisLimits);
 
 
 %%
-% b) Planner_Yoshikawa
+% b) Planner_Critere_Mem_Dist_Yoshikawa
 %
 
 axisLimits = [
     [-12, 15];
-    [-1, 34]
+    [-5, 35]
 ];
 
-ICIMAR('Planner_Yoshikawa', 'Exemple3', axisLimits);
+ICIMAR('Planner_Critere_Mem_Dist_Yoshikawa', 'Exemple3', axisLimits);
