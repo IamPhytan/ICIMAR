@@ -1,4 +1,4 @@
-function [out] = DistToJointCalculator(Obstacles,LengthsMemory,thetaOutMemory)
+function out = DistToJointCalculator(Obstacles,LengthsMemory,thetaOutMemory)
     dis = 0;
 
     phi = cumsum(thetaOutMemory);
