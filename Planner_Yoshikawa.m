@@ -3,7 +3,7 @@ function out = Planner_Yoshikawa(Architecture,Lengths,Angles,CurrentJointValues,
 %   Optimisation d'un critère
 
     % Mesure de la manipulabilité
-    manipulabilite = det(J);
+    manipulabilite = - sqrt(abs(det(J * J')));
 
     % Position envoyée au robot
     out = CurrentJointValues + manipulabilite * xyThetaDot;

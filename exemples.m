@@ -196,8 +196,8 @@ ICIMAR('Planner_Critere_Mem_Dist', 'Exemple2', axisLimits);
 % ]
 
 axisLimits = [
-    [-12, 12];
-    [-1, 9]
+    [-12, 15];
+    [-1, 14]
 ];
 
 
@@ -213,7 +213,7 @@ ICIMAR('Planner_PosOnly', 'Exemple3', axisLimits);
 %
 
 axisLimits = [
-    [-12, 12];
+    [-12, 15];
     [-1, 34]
 ];
 
