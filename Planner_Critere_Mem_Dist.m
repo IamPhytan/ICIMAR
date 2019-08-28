@@ -1,4 +1,4 @@
-function [out] = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJointValues,J,Obstacles,xyThetaDot)
+function out = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJointValues,J,Obstacles,xyThetaDot)
 % Planner_Critere_Mem_Dist
 %   Optimisation d'un critère
 

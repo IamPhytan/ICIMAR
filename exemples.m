@@ -130,3 +130,79 @@ ICIMAR('Planner_PosOnly', 'Exemple2', axisLimits);
 % ICIMAR Planner_Critere_Mem_Dist Exemple2
 ICIMAR('Planner_Critere_Mem_Dist', 'Exemple2', axisLimits);
 
+
+
+
+%%
+% Exemple 3 - Exemple de Yoshikawa
+%   Exemple du livre "Advanced Robotics: Redundancy and Optimization" de Yoshihiko Nakamura
+%
+
+% Architecture : ['R'] * 3
+% Longueurs : [10, 16.07980, 4.01995]
+% Angles : [180, 5.71059, 5.71059]
+% Vitesse cartésiennes maximales de l'organe terminal : [0.02, 0.03, 3]
+% Cibles à atteindre : [
+%     {
+%         x :   10,
+%         y :  1.8,
+%         angle : 320
+%     },
+%     {
+%         x :   10,
+%         y :  1.6,
+%         angle : 290
+%     },
+%     {
+%         x :   10,
+%         y :  1.4,
+%         angle : 260
+%     },
+%     {
+%         x :   10,
+%         y :  1.2,
+%         angle : 240
+%     },
+%     {
+%         x :   10,
+%         y :    1,
+%         angle : 230
+%     },
+%     {
+%         x :   10,
+%         y :  0.8,
+%         angle : 220
+%     },
+%     {
+%         x :   10,
+%         y :  0.6,
+%         angle : 215
+%     },
+%     {
+%         x :   10,
+%         y :  0.4,
+%         angle : 210
+%     },
+%     {
+%         x :   10,
+%         y :  0.2,
+%         angle : 210
+%     },
+%     {
+%         x :   10,
+%         y :    0,
+%         angle : 210
+%     }
+% ]
+
+axisLimits = [
+    [-12, 12];
+    [-1, 9]
+];
+
+
+%%
+% a) Planner_Yoshikawa
+%
+
+ICIMAR('Planner_Yoshikawa', 'Exemple3', axisLimits);
