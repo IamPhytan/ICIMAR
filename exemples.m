@@ -202,7 +202,19 @@ axisLimits = [
 
 
 %%
-% a) Planner_Yoshikawa
+% a) Planner_PosOnly
 %
+
+ICIMAR('Planner_PosOnly', 'Exemple3', axisLimits);
+
+
+%%
+% b) Planner_Yoshikawa
+%
+
+axisLimits = [
+    [-12, 12];
+    [-1, 34]
+];
 
 ICIMAR('Planner_Yoshikawa', 'Exemple3', axisLimits);
