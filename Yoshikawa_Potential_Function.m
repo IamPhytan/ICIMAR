@@ -1,5 +1,5 @@
-function out = Planner_Yoshikawa(Architecture,Lengths,Angles,CurrentJointValues,J,Obstacles,xyThetaDot)
-% Planner_Yoshikawa
+function out = Yoshikawa_Potential_Function(Architecture,Lengths,Angles,CurrentJointValues,J,Obstacles,xyThetaDot)
+% Yoshikawa_Potential_Function
 %   Optimisation d'un critère
 
     % Mesure de la manipulabilité
