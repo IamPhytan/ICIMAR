@@ -34,12 +34,6 @@ function out = Planner_Critere_Mem_Dist(Architecture,Lengths,Angles,CurrentJoint
 
     distDot=(distIncrem-distDecrem)/(2*h);
 
-    % if (norm(DistDot) > 1E-6)
-    %     DistDot=DistDot/norm(DistDot);
-    % else
-    %     DistDot=zeros(size(Architecture));
-    % end
-
     % Pseudo Inverse
     Jinv = J' / (J * J');
 
