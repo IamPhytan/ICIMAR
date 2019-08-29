@@ -16,7 +16,7 @@ function out = Planner_Critere_Mem_Dist_Yoshikawa(Architecture,Lengths,Angles,Cu
         incAngle = tempValues(idx, 2) + h * (Architecture(idx) == 'R');
         tempValues(idx, :) = [incLength, incAngle];
 
-        distIncrem(idx, :) = DistToJointCalculator(Obstacles, tempValues(:, 1), tempValues(:, 2));
+        distIncrem(idx, :) = Yoshikawa_Potential_Function(Architecture, tempValues(:, 1), tempValues(:, 2));
 
         tempValues = [Lengths, Angles];
 
@@ -24,7 +24,7 @@ function out = Planner_Critere_Mem_Dist_Yoshikawa(Architecture,Lengths,Angles,Cu
         decAngle = tempValues(idx, 2) - h * (Architecture(idx) == 'R');
         tempValues(idx, :) = [decLength, decAngle];
 
-        distDecrem(idx, :) = DistToJointCalculator(Obstacles, tempValues(:, 1), tempValues(:, 2));
+        distDecrem(idx, :) = Yoshikawa_Potential_Function(Architecture, tempValues(:, 1), tempValues(:, 2));
     end
 
 
@@ -33,12 +33,6 @@ function out = Planner_Critere_Mem_Dist_Yoshikawa(Architecture,Lengths,Angles,Cu
     distDecrem = distDecrem .* discriminator;
 
     distDot=(distIncrem-distDecrem)/(2*h);
-
-    % if (norm(DistDot) > 1E-6)
-    %     DistDot=DistDot/norm(DistDot);
-    % else
-    %     DistDot=zeros(size(Architecture));
-    % end
 
     % Pseudo Inverse
     Jinv = J' / (J * J');
