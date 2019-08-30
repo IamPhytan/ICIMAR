@@ -91,3 +91,7 @@ Atteindre un point avec un robot PPPR
 #### Planificateur _Critere_Mem_Dist_
 
 >![Vidéo de l'exemple](./videos/Exemple2-Planner_Critere_Mem_Dist-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
+
+## Licence
+
+ICIMAR est publié sous [licence MIT](https://opensource.org/licenses/MIT).
