@@ -9,7 +9,7 @@ Interface de calcul de cinématique pour les manipulateurs redondants
 Ajoutez les membres du bras à tracer dans le [fichier de configuration de l'architecture](./configurations/config.example/architecture.txt), avec la syntaxe suivante:
 
 ```md
-<type-de-joint> <longueur-du-membre> <longueur-du-membre> <angle-en-degrés>
+<type-de-joint> <longueur-du-membre> <largeur-du-membre> <angle-en-degrés>
 ```
 
 Les types de joints sont représentés par une lettre indiquant les joints suivants:
@@ -36,7 +36,7 @@ La syntaxe suivante doit être utilisée pour donner les vitesses cartésiennes 
 <vitesse-maximale-en-x> <vitesse-maximale-en-y> <vitesse-angulaire-maximale-en-degres>
 ```
 
-Par exemple, pour un organe terminal se déplaçant avec une vitese maximale de `2 m/s` en `x` et en `y` et avec une vitesse maximale de `5 °/s`:
+Par exemple, pour un organe terminal se déplaçant avec une vitesse maximale de `2 m/s` en `x` et en `y` et avec une vitesse maximale de `5 °/s`:
 
 ```md
 2 2 5
@@ -48,7 +48,7 @@ La syntaxe suivante doit être utilisée pour donner les cibles à atteindre par
 <coordonnee-en-x> <coordonnee-en-y> <angle-en-degres>
 ```
 
-Par exemple, pour une cible à atteidnre au point `(5, 3)` avec un angle d'approche de `30°` par rapport à l'axe des x:
+Par exemple, pour une cible à atteindre au point `(5, 3)` avec un angle d'approche de `30°` par rapport à l'axe des x:
 
 ```md
 5 3 30
@@ -76,21 +76,21 @@ Atteindre un point avec un robot PPPR
 
 #### Planificateur _PosOnly_
 
->![Vidéo de l'exemple](./videos/Exemple1-Planner_PosOnly-PPPR.mp4)
+<video src="./videos/Exemple1-Planner_PosOnly-PPPR.mp4" controls width="800"></video>
 
 #### Planificateur _Critere_mid_prismatic_
 
->![Vidéo de l'exemple](./videos/Exemple1-Planner_Critere_mid_Prismatic-PPPR.mp4)
+<video src="./videos/Exemple1-Planner_Critere_mid_Prismatic-PPPR.mp4" controls width="800"></video>
 
 ### Exemple 2
 
 #### Planificateur _PosOnly_
 
->![Vidéo de l'exemple](./videos/Exemple2-Planner_PosOnly-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
+<video src="./videos/Exemple2-Planner_PosOnly-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4" controls width="800"></video>
 
 #### Planificateur _Critere_Mem_Dist_
 
->![Vidéo de l'exemple](./videos/Exemple2-Planner_Critere_Mem_Dist-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4)
+<video src="./videos/Exemple2-Planner_Critere_Mem_Dist-RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.mp4" controls width="800"></video>
 
 ## Licence
 
